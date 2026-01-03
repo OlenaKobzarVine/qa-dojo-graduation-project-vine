@@ -1,0 +1,21 @@
+{
+  "name": "qa-dojo-graduation-project-vine",
+  "version": "1.0.0",
+  "description": "This project contains automated UI tests for the main functionality of an online store.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OlenaKobzarVine/qa-dojo-graduation-project-vine.git"
+  },
+  "keywords": [],
+  "author": "Olena Kobzar",
+  "license": "MIT",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/OlenaKobzarVine/qa-dojo-graduation-project-vine/issues"
+  },
+  "homepage": "https://github.com/OlenaKobzarVine/qa-dojo-graduation-project-vine#readme"
+}
