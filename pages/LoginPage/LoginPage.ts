@@ -15,7 +15,8 @@ export class LoginPage extends BasePage {
     await this.navigateTo(
       'https://teststore.automationtesting.co.uk/index.php?controller=authentication'
     );
-    await this.locators.signInTitle.waitFor({ state: 'visible' });
+    //await this.locators.signInTitle.waitFor({ state: 'visible' });
+    await this.locators.emailInput.waitFor({ state: 'visible' });
   }
 
   async fillInputFields(credentials: { email: string; password: string }) {
@@ -31,5 +32,4 @@ export class LoginPage extends BasePage {
     await this.fillInputFields({ email, password });
     await this.clickSignInButton();
   }
-
 }

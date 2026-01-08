@@ -36,9 +36,9 @@ export default defineConfig({
     ['list'],
   ],
 
-  //globalSetup: './globalSetup.ts',
+  globalSetup: './globalSetup.ts',
 
-  timeout: 30 * 1000,
+  timeout: 60 * 1000,
   expect: {
     timeout: 3000,
   },

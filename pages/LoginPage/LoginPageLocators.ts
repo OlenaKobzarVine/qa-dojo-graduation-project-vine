@@ -11,7 +11,6 @@ export class LoginPageLocators extends BasePageLocators {
   readonly signInButton: Locator = this.baseLocator.locator(
     `//button[normalize-space(text())='Sign in']`
   );
-  //readonly errorMessages: Locator = this.baseLocator.locator(`//ul[@class='error-messages']//li[1]`);
   readonly signInTitle: Locator = this.baseLocator.locator(
     `//h1[normalize-space(text())='Log in to your account']`
   );

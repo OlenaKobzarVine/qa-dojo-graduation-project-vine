@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "ajs_anonymous_id",
+      "value": "24ebce97-c4e8-47b6-b0f4-274f6238844b",
+      "domain": "teststore.automationtesting.co.uk",
+      "path": "/",
+      "expires": 1767914460.149878,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "PHPSESSID",
+      "value": "4bdc935dbb0d992746db6d064848ac00",
+      "domain": "teststore.automationtesting.co.uk",
+      "path": "/",
+      "expires": 1802470860.150173,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "PrestaShop-bd73d297b14c5070734013be8110710b",
+      "value": "def502001f837d6f5352282592649df8cb5a2e03967b083ffb80746635cbc5eef52d91e6d42de9c784defa1a170e8c77b04f2b12dc224e540d181790771b48c3a435ac3d13bb3d1135aad0e339d392845a0cb2017775ef8e495ff1ed61816a8761d69c3abccc04956ffc378b2948c56b04bc385b4bc13052f9fd125a4e4d910c1b977909545f1b0cc95222681dccaf2038b7f1b61bd6fc91882fe175221789d3c12d2ae668068d0f87378692d82dc7bde798b0f0841f46b5c1c0dfd133719975e1f400e9a475f4394ecb6093683610a1f0518851f9e2a3fea06dddd9b64e0942bacfe36c7848aabcb79bda1d576d8ba4c2b03efb00eb2e95c2861af50832462dead23b2388c2f9ab7a21ae1a7df022a9a943a42e79f7d1e32099ddad9ca0ab7d5629431e43fb0aa139685d3b6505b4e0e42ad13bec86fb51bd9e5ec7dbcfd5a183909da4196a3638868a1ca9e7b9518adc2e081db3298d3e8f9ae77b3fdced27d7784a5788defdbb232d49c296bd16b528968c0cd1fef5f24579e92e8dd556abcad1a61268b545818f42d7e3d321a4e07059494a51a43ab6c8a9b65b8c4f9f129fe2ed0705c70e14bd50b87159db7867b257e5e809d428bd8bfe6b7bea48e8ae4d5d2a79df1815f68c6d22fe1b7a7cb575cae6106426d39b69c25993e65648a18bd4a6ede46a912984d07d22c8add8f11ae43014f1f2f788969d362c0d647da909afebe0ae7269db0a78a9",
+      "domain": ".teststore.automationtesting.co.uk",
+      "path": "/",
+      "expires": 1769638861.47886,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}
