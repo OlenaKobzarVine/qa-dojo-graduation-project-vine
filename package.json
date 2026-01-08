@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "This project contains automated UI tests for the main functionality of an online store.",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/OlenaKobzarVine/qa-dojo-graduation-project-vine.git"
@@ -17,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/OlenaKobzarVine/qa-dojo-graduation-project-vine/issues"
   },
-  "homepage": "https://github.com/OlenaKobzarVine/qa-dojo-graduation-project-vine#readme"
+  "homepage": "https://github.com/OlenaKobzarVine/qa-dojo-graduation-project-vine#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.3",
+    "dotenv": "^17.2.3"
+  }
 }
