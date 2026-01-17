@@ -1,0 +1,54 @@
+import { test } from '../fixtures/base-fixture';
+import { expect } from '@playwright/test';
+import { TestData } from '../TestData';
+import { HomePage } from '../pages/HomePage/HomePage';
+
+test.describe(
+  'Account API tests',
+  { tag: ['@API', '@AccountAPI', '@PositiveTests'] },
+  () => {
+    test('API-001: Register a new user via API', async ({
+      request,
+      browser,
+    }) => {
+      const user = TestData.getValidUser();
+      let response;
+
+      await test.step('Send API request to create a new user', async () => {
+        response = await request.post(
+          'https://teststore.automationtesting.co.uk/index.php?controller=registration',
+          {
+            form: {
+              firstname: user.firstName,
+              lastname: user.lastName,
+              email: user.email,
+              password: user.password,
+              psgdpr: '1',
+              submitCreate: '1',
+            },
+            failOnStatusCode: true,
+          },
+        );
+      });
+
+      await test.step('Verify API response', async () => {
+        expect(response.status()).toBe(200);
+      });
+
+      await test.step('Verify user is logged in via UI', async () => {
+        const storageState = await request.storageState();
+
+        const context = await browser.newContext({ storageState });
+        const page = await context.newPage();
+        const homePage = new HomePage(page);
+
+        await page.goto('/');
+
+        await expect(homePage.signOutButton).toBeVisible();
+        await expect(homePage.accountButton).toHaveText(
+          `${user.firstName} ${user.lastName}`,
+        );
+      });
+    });
+  },
+);

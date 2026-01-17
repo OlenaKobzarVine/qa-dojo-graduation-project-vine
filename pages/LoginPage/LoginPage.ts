@@ -15,7 +15,6 @@ export class LoginPage extends BasePage {
     await this.navigateTo(
       'https://teststore.automationtesting.co.uk/index.php?controller=authentication'
     );
-    //await this.locators.signInTitle.waitFor({ state: 'visible' });
     await this.locators.emailInput.waitFor({ state: 'visible' });
   }
 

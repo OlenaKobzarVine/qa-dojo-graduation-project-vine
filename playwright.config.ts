@@ -36,7 +36,7 @@ export default defineConfig({
     ['list'],
   ],
 
-  globalSetup: './globalSetup.ts',
+  //globalSetup: './globalSetup.ts',
 
   timeout: 60 * 1000,
   expect: {
@@ -61,7 +61,6 @@ export default defineConfig({
       testMatch: '**/tests/**/*.spec.ts',
       use: {
         ...devices['Desktop Chrome'],
-        //baseURL: process.env.BASEURL || 'https://teststore.automationtesting.co.uk',
         baseURL: process.env.BASEURL,
       },
     },

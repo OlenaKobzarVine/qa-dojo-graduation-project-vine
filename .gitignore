@@ -7,3 +7,4 @@ node_modules/
 /playwright/.auth/
 .env
 TestData.ts
+get-auth-token-via-api.spec.ts

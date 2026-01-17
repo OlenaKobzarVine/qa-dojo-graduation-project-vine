@@ -13,7 +13,7 @@ export class HomePage extends BasePage {
 
   async verifyHomePageLoaded() {
     //await this.page.waitForLoadState('networkidle');
-    //await this.page.waitForTimeout(5000);
+    // await this.page.waitForTimeout(1000);
     await this.locators.signOutButton.waitFor({ state: 'visible' });
     await expect(this.page).toHaveURL(/\/index\.php$/);
     await expect(this.page).not.toHaveURL(/registration/);
