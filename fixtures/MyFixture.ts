@@ -2,12 +2,16 @@ import { test as base } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage/LoginPage';
 import { CreateAccountPage } from '../pages/CreateAccountPage/CreateAccountPage';
 import { HomePage } from '../pages/HomePage/HomePage';
+import { ProductPage } from '../pages/ProductPage/ProductPage';
+import { Modal } from '../pages/Modal/Modal';
 
 type MyFixture = {
   userEmail: string;
   loginPage: LoginPage;
   createAccountPage: CreateAccountPage;
   homePage: HomePage;
+  productPage: ProductPage;
+  modal: Modal;
   before: void;
 };
 
@@ -27,6 +31,14 @@ export const test = base.extend<MyFixture>({
     const homePage = new HomePage(page);
     await use(homePage);
   },
+  productPage: async ({ page }, use) => {
+    const productPage = new ProductPage(page);
+    await use(productPage);
+  },
+  modal: async ({ page }, use) => {
+    const modal = new Modal(page);
+    await use(modal);
+  },
 
   before: [
     async ({ loginPage, userEmail }, use) => {
@@ -39,3 +51,4 @@ export const test = base.extend<MyFixture>({
     { auto: false, title: 'executing before test are finished' },
   ],
 });
+
