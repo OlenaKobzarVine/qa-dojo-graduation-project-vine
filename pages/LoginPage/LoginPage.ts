@@ -4,7 +4,6 @@ import { LoginPageLocators } from './LoginPageLocators';
 
 export class LoginPage extends BasePage {
   readonly locators: LoginPageLocators;
-  //private readonly signInUrl = 'https://teststore.automationtesting.co.uk/index.php?controller=authentication';
 
   constructor(page: Page) {
     super(page);

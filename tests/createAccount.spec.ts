@@ -31,11 +31,8 @@ test.describe(
         await createAccountPage.clickSaveButton();
       });
 
-      // await test.step('Save button becomes enabled', async () => {
-      //   await expect(await createAccountPage.isSaveButtonEnabled()).toBe(true);
-      // });
       await test.step('Verify form was submitted', async () => {
-        await homePage.verifyHomePageLoaded();
+        await expect(homePage.page).toHaveURL(/\/index\.php$/);
       });
     });
   }

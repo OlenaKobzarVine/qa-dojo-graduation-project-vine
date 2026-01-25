@@ -2,26 +2,16 @@ import { Locator } from '@playwright/test';
 import { BasePageLocators } from '../BasePage/BasePageLocators';
 
 export class HomePageLocators extends BasePageLocators {
-  readonly signOutButton: Locator = this.baseLocator.locator(`//a[@class='logout hidden-sm-down']`);
-  readonly userAccountLink: Locator = this.baseLocator.locator(`.account`);
+  readonly signOutButton: Locator = this.baseLocator.locator(`a.logout.hidden-sm-down`);
+  readonly userAccountLink: Locator = this.baseLocator.locator(`a.account`);
   
-  // readonly inventoryContainer: Locator = this.baseLocator.locator(
-  //   '.inventory_container'
-  // );
-  // readonly cartBadge: Locator = this.baseLocator.locator(
-  //   '.shopping_cart_badge'
-  // );
-  // readonly burgerMenu: Locator = this.baseLocator.locator(
-  //   '#react-burger-menu-btn'
-  // );
-  // readonly logoutLink: Locator = this.baseLocator.locator(
-  //   '#logout_sidebar_link'
-  // );
-  readonly productItems: Locator = this.baseLocator.locator(`.js-product.product`);
-  readonly productName: Locator = this.baseLocator.locator('.product-name, .product-title, h2, h3');
-  readonly productPrice: Locator = this.baseLocator.locator('.price, .product-price');
-  readonly shoppingCart: Locator = this.baseLocator.locator(
-    // '.shopping_cart_link'
-    '#_desktop_cart'
-  );
+  readonly productItems: Locator = this.baseLocator.locator(`div.js-product.product`);
+  readonly productRegularPrice: Locator = this.baseLocator.locator(`span.regular-price`);
+  readonly productDiscount: Locator = this.baseLocator.locator(`span.discount-percentage`);
+
+  readonly productName: string = `h3.product-title a`;
+  readonly productPrice: string = `span.price`;
+  readonly quickViewButton: string = `a.quick-view`;
+  
+  readonly shoppingCart: Locator = this.baseLocator.locator(`#_desktop_cart`);
 }

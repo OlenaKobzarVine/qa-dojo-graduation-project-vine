@@ -58,7 +58,7 @@ test.describe('Login API tests', { tag: ['@API', '@LoginAPI'] }, () => {
               password: 'invalidPassword123',
               submitLogin: '1',
             },
-            // failOnStatusCode: false, 
+            failOnStatusCode: true, 
           },
         );
       });

@@ -1,108 +1,156 @@
-import { Page, expect } from '@playwright/test';
-import { BasePage } from '../BasePage/BasePage';
-import { HomePageLocators } from './HomePageLocators';
+import { Page, expect } from "@playwright/test";
+import { BasePage } from "../BasePage/BasePage";
+import { HomePageLocators } from "./HomePageLocators";
+import { ProductPage } from "../ProductPage/ProductPage";
+import { QuickViewModal } from "../QuickViewModal/QuickViewModal";
+import { Modal } from "../Modal/Modal";
 
 export interface Product {
   index: number;
-  name: string;
-  price?: string;
+  name: string | null;
+  price: string | null;
 }
 
 export class HomePage extends BasePage {
   readonly locators: HomePageLocators;
-  //private readonly signInUrl = 'https://demo.learnwebdriverio.com/login';
 
   constructor(page: Page) {
     super(page);
-    this.locators = new HomePageLocators(page.locator('body'));
+    this.locators = new HomePageLocators(page.locator("body"));
   }
 
   async waitForHomePageElements() {
-    await this.locators.signOutButton.waitFor({ state: 'visible' });
-    await this.locators.shoppingCart.waitFor({ state: 'visible' });
-    await this.locators.productItems.first().waitFor({ state: 'visible' });
+    await this.locators.signOutButton.waitFor({ state: "visible", timeout: 10000 });
+    await this.locators.shoppingCart.waitFor({ state: "visible", timeout: 10000 });
+    await this.locators.productItems.first().waitFor({ state: "visible", timeout: 10000 });
   }
-
-  // async verifyHomePageURL() {
-  //   await expect(this.page).toHaveURL(/\/index\.php$/);
-  //   await expect(this.page).not.toHaveURL(/registration/);
-  // }
-
-  // async verifyHomePageLoaded() {
-  //   //await this.page.waitForLoadState('networkidle');
-  //   // await this.page.waitForTimeout(1000);
-  //   await this.locators.signOutButton.waitFor({ state: 'visible' });
-  //   await expect(this.page).toHaveURL(/\/index\.php$/);
-  //   await expect(this.page).not.toHaveURL(/registration/);
-  // }
 
   async openCart() {
     await this.locators.shoppingCart.click();
+    await this.page.waitForLoadState('networkidle');
   }
 
-  async getProductItemsCount(): Promise<number> {
-    return this.locators.productItems.count();
+  async getProductItemsCount() {
+    await this.locators.productItems.first().waitFor({ state: "visible" });
+    return await this.locators.productItems.count();
   }
 
-  async getTestProductsData(): Promise<Product[]> {
+  async getTestProductsData() {
     const productCount = await this.getProductItemsCount();
     const products: Product[] = [];
 
     for (let i = 0; i < productCount; i++) {
-      const productElement = this.locators.productItems.nth(i);
-      const name = await productElement.locator(this.locators.productName).textContent();
-      const price = await productElement.locator(this.locators.productPrice).textContent();
+      const product = this.locators.productItems.nth(i);
+      
+      const nameLink = product.locator('h3.product-title a');
+      let name = await nameLink.getAttribute('title');
+      if (!name) {
+        name = await nameLink.textContent();
+      }
+      const price = await product.locator('span.price').textContent();
 
       products.push({
         index: i,
-        // name: name?.trim() || `Product ${i + 1}`,
-        name: name?.trim(),
-        // price: price?.trim() || undefined,
-        price: price?.trim(),
+        name: name?.trim() || null,
+        price: price?.trim() || null,
       });
     }
-
     return products;
   }
 
-  async openProductItemPage(index: number) {
-    await this.locators.productItems.nth(index).click();
+  async openProductQuickView(index: number): Promise<void> {
+    const productItem = this.locators.productItems.nth(index);
+    await productItem.hover();
+    
+    const quickViewButton = productItem.locator('a.quick-view');
+    await quickViewButton.waitFor({ state: "visible", timeout: 5000 });
+    await quickViewButton.click();
   }
 
-  async addAllProductToCartAndVerify() {
+  async openProductItemPage(index: number) {
+    const productItem = this.locators.productItems.nth(index);
+    await productItem.waitFor({ state: "visible" });
+    await productItem.click();
+  }
+
+  async addAllProductToCart() {
+    const quickViewModal = new QuickViewModal(this.page);
+    const modal = new Modal(this.page);
+    
+    const productCount = await this.getProductItemsCount();
+
+    for (let i = 0; i < productCount; i++) {
+      const productElement = this.locators.productItems.nth(i);
       
-    const testProducts = await this.getTestProductsData();
-    if (testProducts.length > 0) {
-      for (const product of testProducts) {
-         await this.openProductItemPage(product.index);
-        await this.addToCart();
-              // await test.step(`Add ${product.name} to cart`, async () => {
-              //   await test.step('Open product page', async () => {
-                  //await homePage.locators.productItems.nth(product.index).click();
-                  //  await this.openProductItemPage(product.index);
-                  //await this.waitForLoadState('networkidle');
-                  // let title = await productPage.getProductTitle();
-                  // expect(title, 'Product title should be visible').toBeTruthy();
-                // }
-              // );
+      await productElement.scrollIntoViewIfNeeded();
+      await productElement.hover();
       
-                // await test.step('Add product to cart', async () => {
-                //   await productPage.addToCart();
-                // });
+      const quickViewBtn = productElement.locator('a.quick-view');
+      await quickViewBtn.waitFor({ state: "visible", timeout: 5000 });
+      await quickViewBtn.click();
       
-                await test.step('у відкритому модальному вікні натиснути кнопку Продовжити покупки', async () => {
-                  await modal.closeModal();
-                  await page.waitForLoadState('networkidle');
-                });
+      await this.page.waitForLoadState("networkidle");
+
+      await quickViewModal.clickAddToCart();
+      await modal.clickContinueShopping();
       
-                // Navigate back to home page for next product
-                if (product.index < testProducts.length - 1) {
-                  await page.goBack({ waitUntil: 'networkidle' });
-                }
-            //   });
-            }
+      await this.page.waitForTimeout(500);
     }
   }
 
+  async addProductToCartByIndex(index: number) {
+    const quickViewModal = new QuickViewModal(this.page);
+    const modal = new Modal(this.page);
+    
+    const product = this.locators.productItems.nth(index);
+    
+    await product.scrollIntoViewIfNeeded();
+    await product.hover();
+    
+    const quickViewBtn = product.locator('a.quick-view');
+    await quickViewBtn.waitFor({ state: "visible", timeout: 5000 });
+    await quickViewBtn.click();
+    
+    await this.page.waitForLoadState("networkidle");
+    
+    await quickViewModal.clickAddToCart();
+    await modal.clickContinueShopping();
+  }
 
+  async addProductToCartByName(productName: string) {
+    const products = await this.getTestProductsData();
+    
+    const product = products.find(
+      p => p.name?.toLowerCase().includes(productName.toLowerCase())
+    );
+    
+    if (!product) {
+      throw new Error(`Product "${productName}" not found`);
+    }
+    
+    await this.addProductToCartByIndex(product.index);
+  }
+
+  async getProductDataByName(productName: string): Promise<Product | null> {
+    const products = await this.getTestProductsData();
+    
+    const product = products.find(
+      p => p.name?.toLowerCase().includes(productName.toLowerCase())
+    );
+    
+    return product || null;
+  }
+
+  async getProductDataByIndex(index: number): Promise<Product> {
+    const product = this.locators.productItems.nth(index);
+    
+    const name = await product.locator('h3.product-title a').textContent();
+    const price = await product.locator('span.price').textContent();
+    
+    return {
+      index,
+      name: name?.trim() || null,
+      price: price?.trim() || null,
+    };
+  }
 }

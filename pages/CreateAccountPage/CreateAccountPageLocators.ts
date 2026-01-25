@@ -10,7 +10,6 @@ export class CreateAccountPageLocators extends BasePageLocators {
     `//input[@name="psgdpr"]`
   );
 
-  // Inputs
   readonly firstNameInput: Locator = this.baseLocator.locator(
     `//input[@id="field-firstname"]`
   );
@@ -27,7 +26,6 @@ export class CreateAccountPageLocators extends BasePageLocators {
     `//input[@id="field-password"]`
   );
 
-  // Buttons
   readonly saveButton: Locator = this.baseLocator.locator(
     `//button[normalize-space(text())='Save']`
   );

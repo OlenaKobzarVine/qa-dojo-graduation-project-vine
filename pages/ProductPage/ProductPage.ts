@@ -16,19 +16,19 @@ export class ProductPage extends BasePage {
     this.locators = new ProductPageLocators(page.locator('body'));
   }
 
-  async getProductName(): Promise<string> {
+  async getProductName() {
     return this.locators.productTitle.textContent() || '';
   }
 
-  async getProductPrice(): Promise<string> {
+  async getProductPrice() {
     return this.locators.productPrice.textContent() || '';
   }
 
-  async addToCart(): Promise<void> {
+  async addToCart() {
     await this.locators.addToCartButton.click();
   }
 
-  async getProductTitle(): Promise<string> {
+  async getProductTitle() {
     await this.locators.productTitle.waitFor({ state: 'visible' });
     const title = await this.getProductName();
     return title;    
