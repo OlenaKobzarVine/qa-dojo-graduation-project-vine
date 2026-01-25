@@ -73,7 +73,7 @@ export class HomePage extends BasePage {
     await productItem.click();
   }
 
-  async addAllProductToCart() {
+  async addAllProductsFromFirstPageToCart() {
     const quickViewModal = new QuickViewModal(this.page);
     const modal = new Modal(this.page);
     
@@ -81,8 +81,9 @@ export class HomePage extends BasePage {
 
     for (let i = 0; i < productCount; i++) {
       const productElement = this.locators.productItems.nth(i);
-      
-      await productElement.scrollIntoViewIfNeeded();
+      // !!!!!!!!!!!!!!!!!
+      // await productElement.scrollIntoViewIfNeeded();
+      // !!!!!!!!!!!!!!!!!
       await productElement.hover();
       
       const quickViewBtn = productElement.locator('a.quick-view');
@@ -98,13 +99,21 @@ export class HomePage extends BasePage {
     }
   }
 
-  async addProductToCartByIndex(index: number) {
+ private getProductByName(productName: string) {
+  return this.page
+    .locator('.js-product.product')
+    .filter({ hasText: productName })
+    .first();
+}
+
+  async addProductToCartByName(productName: string, quantity: number = 1) {
     const quickViewModal = new QuickViewModal(this.page);
     const modal = new Modal(this.page);
     
-    const product = this.locators.productItems.nth(index);
-    
-    await product.scrollIntoViewIfNeeded();
+    const product = this.getProductByName(productName);
+     // !!!!!!!!!!!!!!!!!
+      // await product.scrollIntoViewIfNeeded();
+      // !!!!!!!!!!!!!!!!!
     await product.hover();
     
     const quickViewBtn = product.locator('a.quick-view');
@@ -112,45 +121,10 @@ export class HomePage extends BasePage {
     await quickViewBtn.click();
     
     await this.page.waitForLoadState("networkidle");
-    
+
+    await quickViewModal.setProductQuantity(quantity);
     await quickViewModal.clickAddToCart();
     await modal.clickContinueShopping();
   }
 
-  async addProductToCartByName(productName: string) {
-    const products = await this.getTestProductsData();
-    
-    const product = products.find(
-      p => p.name?.toLowerCase().includes(productName.toLowerCase())
-    );
-    
-    if (!product) {
-      throw new Error(`Product "${productName}" not found`);
-    }
-    
-    await this.addProductToCartByIndex(product.index);
-  }
-
-  async getProductDataByName(productName: string): Promise<Product | null> {
-    const products = await this.getTestProductsData();
-    
-    const product = products.find(
-      p => p.name?.toLowerCase().includes(productName.toLowerCase())
-    );
-    
-    return product || null;
-  }
-
-  async getProductDataByIndex(index: number): Promise<Product> {
-    const product = this.locators.productItems.nth(index);
-    
-    const name = await product.locator('h3.product-title a').textContent();
-    const price = await product.locator('span.price').textContent();
-    
-    return {
-      index,
-      name: name?.trim() || null,
-      price: price?.trim() || null,
-    };
-  }
 }

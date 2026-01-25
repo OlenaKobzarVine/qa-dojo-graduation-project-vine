@@ -1,3 +1,7 @@
+## Author
+
+Automated tests are developed by Olena Kobzar.
+
 # Playwright Automation Tests
 
 Automated tests for the e-commerce platform [teststore.automationtesting.co.uk](https://teststore.automationtesting.co.uk) built with Playwright.
@@ -57,6 +61,4 @@ DEFAULT_PASSWORD=your_password
 BASEURL=https://teststore.automationtesting.co.uk
 ```
 
-## Author
 
-Automated tests are developed by Olena Kobzar.

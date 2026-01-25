@@ -10,7 +10,7 @@ test.describe(
   },
   () => {
 
-    test('Add all products to cart', async ({ homePage, cartPage }) => {
+    test('PR-001 Add all products to cart', async ({ homePage, cartPage }) => {
       await test.step('Navigate to the home page', async () => {
         await homePage.navigateTo('/');
         await homePage.waitForHomePageElements();
@@ -22,8 +22,7 @@ test.describe(
       });
 
       await test.step('Add all products to cart', async () => {
-        // addedProductsCount = await homePage.getProductItemsCount();
-        await homePage.addAllProductToCart();
+        await homePage.addAllProductsFromFirstPageToCart();
       });
 
       await test.step('Navigate to shopping cart and verify all products are added', async () => {
@@ -31,6 +30,35 @@ test.describe(
         await homePage.openCart();
 
         await cartPage.verifyProductsInCart(addedProducts);
+      });
+    });
+
+    test('PR-002 Add product quantity and remove from cart', async ({ homePage, cartPage, quickViewModal, modal }) => {
+      const productToTest = TestData.products[0]; 
+
+      await test.step('Navigate to the home page', async () => {
+        await homePage.navigateTo('/');
+        await homePage.waitForHomePageElements();
+      });
+
+      await test.step('Add product with quantity 2 to cart', async () => {
+        await homePage.addProductToCartByName(productToTest.title, 2);
+      });
+
+      await test.step('Navigate to shopping cart and verify product is in cart', async () => {
+        const cartProductNames = await cartPage.getCartProductsNames();
+        const found = cartProductNames.some(name => name.includes(productToTest.title));
+        await expect(found).toBeTruthy();
+      });
+
+      await test.step('Remove product from cart', async () => {
+        await cartPage.removeProduct(productToTest.title);
+      });
+
+      await test.step('Verify product is no longer in cart', async () => {
+        const cartProductNames = await cartPage.getCartProductsNames();
+        const found = cartProductNames.some(name => name.includes(productToTest.title));
+        await expect(found).toBeFalsy();
       });
     });
   }

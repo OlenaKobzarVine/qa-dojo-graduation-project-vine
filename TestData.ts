@@ -8,6 +8,101 @@ export class TestData {
   static readonly firstName = 'TestFirstName';
   static readonly lastName = 'TestLastName';
 
+  static readonly products = [
+    // Page 1
+    {
+      title: 'Hummingbird printed t-shirt',
+      price: '$16.50',
+      category: 'Clothes',
+      colour: ['White', 'Black' ],
+    },
+    {
+      title: 'Hummingbird printed sweater',
+      price: '$28.72',
+      category: 'Clothes',
+      colour: ['White', 'Black' ],
+    },
+    {
+      title: "The best is yet to come' Framed poster",
+      price: '$27.80',
+      category: 'Art',
+      colour: undefined,
+    },
+    {
+      title: 'The adventure begins Framed poster',
+      price: '$27.80',
+      category: 'Art',
+      colour: undefined,
+    },
+    {
+      title: 'Today is a good day Framed poster',
+      price: '$27.80',
+      category: 'Art',
+      colour: undefined,
+    },
+    {
+      title: 'Mug The best is yet to come',
+      price: '$11.90',
+      category: 'Accessories',
+      colour: undefined,
+    },
+    {
+      title: 'Mug The adventure begins',
+      price: '$11.90',
+      category: 'Accessories',
+      colour: undefined,
+    },
+    {
+      title: 'Mug Today is a good day',
+      price: '$11.90',
+      category: 'Accessories',
+      colour: undefined,
+    },
+    // Page 2
+    {
+      title: 'Brown bear - Vector graphics',
+      price: '$9.00',
+      category: 'Art',
+      colour: undefined,
+    },
+    {
+      title: 'Hummingbird - Vector graphics',
+      price: '$9.00',
+      category: 'Art',
+      colour: undefined,
+    },
+    {
+      title: 'Pack Mug + Framed poster',
+      price: '$35.00',
+      category: 'Accessories',
+      colour: undefined,
+    },
+    {
+      title: 'Mountain fox notebook',
+      price: '$12.90',
+      category: 'Accessories',
+      colour: undefined,
+    },
+    {
+      title: 'Brown bear notebook',
+      price: '$12.90',
+      category: 'Accessories',
+      colour: undefined,
+    },
+    {
+      title: 'Hummingbird notebook',
+      price: '$12.90',
+      category: 'Accessories',
+      colour: undefined,
+    },
+    {
+      title: 'Customizable mug',
+      price: '$13.90',
+      category: 'Accessories',
+      colour: undefined,
+    },
+  ];
+
   static getValidUser() {
     const currentDate = new Date();
     const timestamp = currentDate.getTime();

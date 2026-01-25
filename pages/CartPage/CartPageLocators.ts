@@ -5,8 +5,8 @@ export class CartPageLocators extends BasePageLocators {
   readonly cartItems: Locator = this.baseLocator.locator('.cart-item');
   readonly productName: string = '.product-line-info a';
   readonly productPrice: string = '.current-price .price';
-  readonly quantityInput: Locator = this.baseLocator.locator('.js-cart-line-product-quantity');
-  readonly removeFromCartButton: Locator = this.baseLocator.locator('.remove-from-cart');
+  readonly removeFromCartButton: string = '.remove-from-cart';
+  readonly quantityInput: string = '.js-cart-line-product-quantity';
   readonly proceedToCheckoutButton: Locator = this.baseLocator.locator('.checkout a');
   readonly cartSummary: Locator = this.baseLocator.locator('.cart-summary');
   readonly subtotalValue: Locator = this.cartSummary.locator('#cart-subtotal-products .value');

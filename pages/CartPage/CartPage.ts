@@ -10,24 +10,18 @@ export class CartPage extends BasePage {
     this.locators = new CartPageLocators(page.locator('body'));
   }
 
-  async getCartItemsCount(): Promise<number> {
+  async getCartItemsCount() {
     if (await this.locators.noItemsInCartLabel.isVisible()) return 0;
     await this.locators.cartItems.first().waitFor();
     return this.locators.cartItems.count();
   }
 
-  async getProductInCart(index: number): Promise<Locator> {
+  async getProductInCart(index: number) {
     return this.locators.cartItems.nth(index);
   }
 
-  async clickProceedToCheckout(): Promise<void> {
+  async clickProceedToCheckout() {
     await this.locators.proceedToCheckoutButton.click();
-  }
-
-  async removeProduct(index: number): Promise<void> {
-    const item = await this.getProductInCart(index);
-    await item.locator(this.locators.removeFromCartButton).click();
-    await expect(item).not.toBeVisible();
   }
 
   async getCartProductsNames() {
@@ -47,7 +41,7 @@ export class CartPage extends BasePage {
     return productNames;
   }
 
-  async verifyProductsInCart(addedProducts: Array<{ name: string | null }>): Promise<void> {
+  async verifyProductsInCart(addedProducts: Array<{ name: string | null }>) {
     const cartProductNames = await this.getCartProductsNames();
 
     for (const product of addedProducts) {
@@ -64,5 +58,31 @@ export class CartPage extends BasePage {
       
       await expect(found).toBeTruthy();
     }
+  }
+
+  private getProductByName(productName: string) {
+    return this.page.locator(`.cart-item:has-text("${productName}")`);
+  }
+
+  async removeProduct(name: string) {
+    const product = this.getProductByName(name);
+    await product.locator(this.locators.removeFromCartButton as string).click();
+    await expect(product).not.toBeVisible();
+  }
+
+  async getProductQuantity(productName: string): Promise<number> {
+    const product = this.getProductByName(productName);
+    const quantityInput = product.locator(this.locators.quantityInput as string);
+    const quantityValue = await quantityInput.inputValue();
+    return parseInt(quantityValue, 10);
+  }
+
+  async updateProductQuantity(productName: string, quantity: number): Promise<void> {
+    const product = this.getProductByName(productName);
+    const quantityInput = product.locator(this.locators.quantityInput as string);
+    await quantityInput.clear();
+    await quantityInput.fill(quantity.toString());
+    await quantityInput.press('Enter');
+    await this.page.waitForLoadState('networkidle');
   }
 }

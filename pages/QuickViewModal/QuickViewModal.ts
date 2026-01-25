@@ -17,4 +17,9 @@ export class QuickViewModal extends BasePage {
   async closeModal(){
     await this.locators.closeButton.click();
   }
+
+  async setProductQuantity(quantity: number) {
+    await this.locators.quantityInput.clear();
+    await this.locators.quantityInput.fill(quantity.toString());
+  }
 }
