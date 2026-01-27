@@ -57,5 +57,35 @@ test.describe(
         await expect(product2Qty).toBe(quantity - 1);
       });
     });
+
+    test('CART-002 Add a negative quantity of products to the cart', async ({ homePage, cartPage }) => {
+      const product1 = TestData.products[0]; 
+      const quantity = -3;
+
+      await test.step('Navigate to the home page', async () => {
+        await homePage.navigateTo('/');
+        await homePage.waitForHomePageElements();
+      });
+
+      await test.step('Add product with negative quantity to cart', async () => {
+        await homePage.addProductToCartByName(product1.title, quantity);
+      });
+
+      await test.step('Verify product is in cart with correct quantity', async () => {
+        await homePage.openCart();
+
+        const cartProductNames = await cartPage.getCartProductsNames();
+        const product1Found = cartProductNames.some(name => name.includes(product1.title));
+        
+        await expect(product1Found).toBeTruthy();
+        
+        const product1Qty = await cartPage.getProductQuantity(product1.title);
+        
+        await expect(product1Qty).toBe(1);
+      });
+    
+    });
   }
+
+  
 );
