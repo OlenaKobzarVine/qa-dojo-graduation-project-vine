@@ -8,6 +8,12 @@ export class TestData {
   static readonly firstName = 'TestFirstName';
   static readonly lastName = 'TestLastName';
 
+  static readonly address1 = 'Test Address 1';
+  static readonly city = 'Test City';
+  static readonly state = 'California';
+  static readonly postcode = '90001';
+  static readonly country = 'United States';
+
   static readonly products = [
     // Page 1
     {
@@ -129,6 +135,18 @@ export class TestData {
     return {
       email: this.userForLogin,
       password: this.password,
+    };
+  }
+
+  static getDataForCheckout() {
+    return {
+      firstName: this.firstName,
+      lastName: this.lastName,
+      address1: this.address1,
+      city: this.city,
+      state: this.state,
+      postcode: this.postcode,
+      country: this.country,
     };
   }
 }

@@ -6,6 +6,8 @@ import { ProductPage } from '../pages/ProductPage/ProductPage';
 import { Modal } from '../pages/Modal/Modal';
 import { QuickViewModal } from '../pages/QuickViewModal/QuickViewModal';
 import { CartPage } from '../pages/CartPage/CartPage';
+import { CheckoutPage } from '../pages/CheckoutPage/CheckoutPage';
+import { OrderConfirmationPage } from '../pages/OrderConfirmationPage/OrderConfirmationPage';
 
 type MyFixture = {
   userEmail: string;
@@ -16,6 +18,8 @@ type MyFixture = {
   modal: Modal;
   quickViewModal: QuickViewModal;
   cartPage: CartPage;
+  checkoutPage: CheckoutPage;
+  orderConfirmationPage: OrderConfirmationPage;
   before: void;
 };
 
@@ -50,6 +54,14 @@ export const test = base.extend<MyFixture>({
   cartPage: async ({ page }, use) => {
     const cartPage = new CartPage(page);
     await use(cartPage);
+  },
+  checkoutPage: async ({ page }, use) => {
+    const checkoutPage = new CheckoutPage(page);
+    await use(checkoutPage);
+  },
+  orderConfirmationPage: async ({ page }, use) => {
+    const orderConfirmationPage = new OrderConfirmationPage(page);
+    await use(orderConfirmationPage);
   },
   before: [
     async ({ loginPage, userEmail }, use) => {

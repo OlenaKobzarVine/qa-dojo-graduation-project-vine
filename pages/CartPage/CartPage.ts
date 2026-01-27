@@ -12,7 +12,7 @@ export class CartPage extends BasePage {
 
   async getCartItemsCount() {
     if (await this.locators.noItemsInCartLabel.isVisible()) return 0;
-    await this.locators.cartItems.first().waitFor();
+    await this.locators.cartItems.first().waitFor({ timeout: 10000, state: 'visible' });
     return this.locators.cartItems.count();
   }
 
@@ -70,19 +70,23 @@ export class CartPage extends BasePage {
     await expect(product).not.toBeVisible();
   }
 
-  async getProductQuantity(productName: string): Promise<number> {
+  async getProductQuantity(productName: string) {
     const product = this.getProductByName(productName);
     const quantityInput = product.locator(this.locators.quantityInput as string);
     const quantityValue = await quantityInput.inputValue();
     return parseInt(quantityValue, 10);
   }
 
-  async updateProductQuantity(productName: string, quantity: number): Promise<void> {
+  async updateProductQuantity(productName: string, quantity: number) {
     const product = this.getProductByName(productName);
     const quantityInput = product.locator(this.locators.quantityInput as string);
     await quantityInput.clear();
     await quantityInput.fill(quantity.toString());
     await quantityInput.press('Enter');
     await this.page.waitForLoadState('networkidle');
+  }
+
+  async proceedToCheckout() {
+    await this.clickProceedToCheckout();
   }
 }

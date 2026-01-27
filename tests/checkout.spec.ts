@@ -1,0 +1,58 @@
+import { test } from "../fixtures/MyFixture";
+import { expect } from "@playwright/test";
+import { TestData } from "../TestData";
+test.describe(
+  "Checkout Tests",
+  { tag: ["@CheckoutPage", "@PositiveTests"], storageState: "./storageState.json" },
+  () => {
+    test("CO-001 Checkout with valid data", async ({
+      homePage,
+      cartPage,
+      checkoutPage,
+      orderConfirmationPage,
+    }) => {
+      const productToTest = TestData.products[0];
+
+      await test.step("Navigate to the home page", async () => {
+        await homePage.navigateTo('/');
+        await homePage.waitForHomePageElements();
+      });
+
+      await test.step("Add product with quantity 2 to cart", async () => {
+        await homePage.addProductToCartByName(productToTest.title, 2);
+      });
+
+      await test.step("Navigate to shopping cart and verify product is in cart", async () => {
+        await homePage.openCart();
+        const cartProductNames = await cartPage.getCartProductsNames();
+        
+        const found = cartProductNames.some((name) =>
+          name.includes(productToTest.title),
+        );
+        await expect(found).toBeTruthy();
+      });
+
+      await test.step("Fill in required checkout fields on Addresses section", async () => {
+        await cartPage.proceedToCheckout();
+        await checkoutPage.fillAddress();
+        await checkoutPage.clickContinueOnAdressSectionButton();
+      });
+
+      await test.step("Left Shipping Method by default", async () => {
+        await checkoutPage.clickContinueOnDeliverySectionButton();
+      });
+
+      await test.step("Select payment method and agree to terms", async () => {
+        await checkoutPage.selectPaymentMethodAndAgreeToTerms();
+      });
+
+      await test.step("Verify order confirmation", async () => {
+        const { title, text } = orderConfirmationPage.getConfirmationElements();
+        await expect(title).toContainText("Your order is confirmed");
+        await expect(text).toContainText(
+          "An email has been sent to the",
+        );
+      });
+    });
+  },
+);

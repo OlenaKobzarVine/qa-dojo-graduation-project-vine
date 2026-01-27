@@ -45,7 +45,8 @@ test.describe(
         await homePage.addProductToCartByName(productToTest.title, 2);
       });
 
-      await test.step('Navigate to shopping cart and verify product is in cart', async () => {
+      await test.step('Navigate to shopping cart and verify products are added', async () => {
+        await homePage.openCart();
         const cartProductNames = await cartPage.getCartProductsNames();
         const found = cartProductNames.some(name => name.includes(productToTest.title));
         await expect(found).toBeTruthy();
