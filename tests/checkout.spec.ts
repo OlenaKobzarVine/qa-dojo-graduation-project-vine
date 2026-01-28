@@ -56,3 +56,48 @@ test.describe(
     });
   },
 );
+
+test.describe(
+  "Checkout tests with empty address fields",
+  { tag: ["@CheckoutPage", "@NegativeTests"], storageState: "./storageState.json" },
+  () => {
+    test("CO-002 Checkout without filling address fields", async ({
+      homePage,
+      cartPage,
+      checkoutPage,
+    }) => {
+      const productToTest = TestData.products[0];
+
+      await test.step("Navigate to the home page", async () => {
+        await homePage.navigateTo('/');
+        await homePage.waitForHomePageElements();
+      });
+
+      await test.step("Add product with quantity 2 to cart", async () => {
+        await homePage.addProductToCartByName(productToTest.title, 2);
+      });
+
+      await test.step("Navigate to shopping cart and verify product is in cart", async () => {
+        await homePage.openCart();
+        const cartProductNames = await cartPage.getCartProductsNames();
+        
+        const found = cartProductNames.some((name) =>
+          name.includes(productToTest.title),
+        );
+        await expect(found).toBeTruthy();
+      });
+
+      await test.step("Proceed to checkout without filling address fields", async () => {
+        await cartPage.proceedToCheckout();
+        await checkoutPage.deleteAddress();
+
+        await checkoutPage.clickContinueOnAdressSectionButton();
+      });
+
+      await test.step("Verify validation errors are displayed", async () => {
+        await expect(checkoutPage.page).toHaveURL(/controller=order/);
+        await expect(checkoutPage.locators.clickContinueOnDeliverySectionButton).not.toBeVisible();
+      });
+    });
+  },
+);

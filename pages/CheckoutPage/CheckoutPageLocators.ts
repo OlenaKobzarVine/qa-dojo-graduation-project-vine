@@ -12,6 +12,7 @@ export class CheckoutPageLocators extends BasePageLocators {
 
 	readonly clickContinueOnAdressSectionButton: Locator = this.baseLocator.locator('button[name="confirm-addresses"]');
 	readonly savedAddressRadio: Locator = this.baseLocator.locator('#delivery-addresses input[type="radio"][name="id_address_delivery"]');
+	readonly deleteAddressButton: Locator = this.baseLocator.locator('a[data-link-action="delete-address"]');
 
 	readonly clickContinueOnDeliverySectionButton: Locator = this.baseLocator.locator('button[name="confirmDeliveryOption"]');
 

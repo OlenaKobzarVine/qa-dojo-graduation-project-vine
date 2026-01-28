@@ -110,7 +110,7 @@ test.describe(
   'Search tests with invalid value',
   { tag: ['@Search', '@NegativeTests'] },
   () => {
-    test('SA-NEG-001 Invalid search value returns no results', async ({ homePage }) => {
+    test('SA-002 Invalid search value returns no results', async ({ homePage }) => {
       const invalidSearchValue = 'Invalid value qwerty';
 
       await test.step('Navigate to the home page', async () => {

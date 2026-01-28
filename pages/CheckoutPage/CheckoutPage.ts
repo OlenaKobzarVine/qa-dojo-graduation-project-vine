@@ -51,6 +51,14 @@ export class CheckoutPage extends BasePage {
     }
   }
 
+  async deleteAddress() {
+    const deleteButton = this.locators.deleteAddressButton;
+    if ((await deleteButton.count()) > 0) {
+      await deleteButton.first().click();
+      await this.page.waitForLoadState('networkidle');
+    }
+  }
+
   async selectPaymentMethodAndAgreeToTerms(){
     await this.page.waitForLoadState('networkidle');
 
