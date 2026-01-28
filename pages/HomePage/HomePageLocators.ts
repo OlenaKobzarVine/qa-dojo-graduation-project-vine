@@ -12,6 +12,11 @@ export class HomePageLocators extends BasePageLocators {
   readonly productName: string = `h3.product-title a`;
   readonly productPrice: string = `span.price`;
   readonly quickViewButton: string = `a.quick-view`;
+  readonly searchInput: Locator = this.baseLocator.locator(`input[name="s"]`);
+  
+  readonly autocompleteMenu: Locator = this.baseLocator.locator(`ul.searchbar-autocomplete`);
+  readonly autocompleteItems: Locator = this.baseLocator.locator(`ul.searchbar-autocomplete li.ui-menu-item`);
+  readonly autocompleteItemProduct: Locator = this.baseLocator.locator(`span.product`);
   
   readonly shoppingCart: Locator = this.baseLocator.locator(`#_desktop_cart`);
 }

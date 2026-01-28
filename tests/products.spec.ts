@@ -64,3 +64,44 @@ test.describe(
     });
   }
 )
+
+test.describe(
+  'Search Tests',
+  { tag: ['@Search', '@PositiveTests'] },
+  () => {
+
+    for (const product of TestData.products) {
+      test(`Search by "${product.title}" returns correct results`, async ({ homePage }) => {
+
+        await test.step('Navigate to the home page', async () => {
+          await homePage.navigateTo('/');
+          await homePage.waitForHomePageElements();
+        });
+
+        await test.step('Enter product title into search input', async () => {
+          await homePage.locators.searchInput.fill(product.title);
+        });
+
+        await test.step('Verify autocomplete menu is visible', async () => {
+          await homePage.locators.autocompleteMenu.waitFor({ state: "visible" });
+          await expect(homePage.locators.autocompleteMenu).toBeVisible();
+        });
+
+        const suggestions = homePage.locators.autocompleteItems;
+        const suggestionCount = await suggestions.count();
+
+        await test.step('Verify at least one search result is shown', async () => {
+          expect(
+            suggestionCount,
+            `Expected at least one autocomplete result for "${product.title}"`
+          ).toBeGreaterThan(0);
+        });
+
+        await test.step('Verify autocomplete results match search criteria', async () => {
+          const verificationResult = await homePage.verifyAutocompleteResultsMatchSearch(product.title);
+          expect(verificationResult.allMatch).toBeTruthy();
+        });
+      });
+    }
+  }
+);

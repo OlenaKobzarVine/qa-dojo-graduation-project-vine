@@ -4,6 +4,7 @@ import { HomePageLocators } from "./HomePageLocators";
 import { ProductPage } from "../ProductPage/ProductPage";
 import { QuickViewModal } from "../QuickViewModal/QuickViewModal";
 import { Modal } from "../Modal/Modal";
+import { TestData } from "../TestData";
 
 export interface Product {
   index: number;
@@ -81,9 +82,6 @@ export class HomePage extends BasePage {
 
     for (let i = 0; i < productCount; i++) {
       const productElement = this.locators.productItems.nth(i);
-      // !!!!!!!!!!!!!!!!!
-      // await productElement.scrollIntoViewIfNeeded();
-      // !!!!!!!!!!!!!!!!!
       await productElement.hover();
       
       const quickViewBtn = productElement.locator('a.quick-view');
@@ -111,9 +109,6 @@ export class HomePage extends BasePage {
     const modal = new Modal(this.page);
     
     const product = this.getProductByName(productName);
-     // !!!!!!!!!!!!!!!!!
-      // await product.scrollIntoViewIfNeeded();
-      // !!!!!!!!!!!!!!!!!
     await product.hover();
     
     const quickViewBtn = product.locator('a.quick-view');
@@ -127,4 +122,25 @@ export class HomePage extends BasePage {
     await modal.clickContinueShopping();
   }
 
+  async verifyAutocompleteResultsMatchSearch(productTitle: string) {
+    const suggestions = this.locators.autocompleteItems;
+    const suggestionElements = await suggestions.all();
+    const results = [];
+
+    for (const suggestion of suggestionElements) {
+      const suggestionText = await suggestion
+        .locator('span.product')
+        .textContent();
+      
+      results.push({
+        text: suggestionText?.trim() || '',
+        matchesSearch: suggestionText?.trim()?.includes(productTitle) || false
+      });
+    }
+
+    return {
+      allMatch: results.every(result => result.matchesSearch),
+      results: results
+    };
+  }
 }
