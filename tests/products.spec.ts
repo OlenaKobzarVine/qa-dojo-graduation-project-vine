@@ -66,7 +66,7 @@ test.describe(
 )
 
 test.describe(
-  'Search Tests',
+  'Search tests by product title',
   { tag: ['@Search', '@PositiveTests'] },
   () => {
 
@@ -103,5 +103,28 @@ test.describe(
         });
       });
     }
+  }
+);
+
+test.describe(
+  'Search tests with invalid value',
+  { tag: ['@Search', '@NegativeTests'] },
+  () => {
+    test('SA-NEG-001 Invalid search value returns no results', async ({ homePage }) => {
+      const invalidSearchValue = 'Invalid value qwerty';
+
+      await test.step('Navigate to the home page', async () => {
+        await homePage.navigateTo('/');
+        await homePage.waitForHomePageElements();
+      });
+
+      await test.step('Enter invalid search value into search input', async () => {
+        await homePage.locators.searchInput.fill(invalidSearchValue);
+      });
+
+      await test.step('Verify autocomplete menu does not appear', async () => {
+        await expect(homePage.locators.autocompleteMenu).not.toBeVisible({ timeout: 5000 });
+      });
+    });
   }
 );
