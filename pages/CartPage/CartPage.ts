@@ -16,9 +16,9 @@ export class CartPage extends BasePage {
     return this.locators.cartItems.count();
   }
 
-  async getProductInCart(index: number) {
-    return this.locators.cartItems.nth(index);
-  }
+  // async getProductInCart(index: number) {
+  //   return this.locators.cartItems.nth(index);
+  // }
 
   async clickProceedToCheckout() {
     await this.locators.proceedToCheckoutButton.click();
@@ -29,7 +29,7 @@ export class CartPage extends BasePage {
     const productNames: string[] = [];
 
     for (let i = 0; i < cartItemsCount; i++) {
-      const productItem = await this.getProductInCart(i);
+      const productItem = await this.locators.cartItems.nth(i);
       const name = await productItem
         .locator(this.locators.productName as string)
         .textContent();

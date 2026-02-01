@@ -44,8 +44,8 @@ test.describe(
 
         await page.goto('/');
 
-        await expect(homePage.signOutButton).toBeVisible();
-        await expect(homePage.accountButton).toHaveText(
+        await expect(homePage.locators.signOutButton).toBeVisible();
+        await expect(homePage.locators.userAccountLink).toContainText(
           `${user.firstName} ${user.lastName}`,
         );
       });

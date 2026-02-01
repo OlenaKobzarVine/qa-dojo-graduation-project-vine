@@ -10,6 +10,9 @@ export class HomePageLocators extends BasePageLocators {
   readonly productDiscount: Locator = this.baseLocator.locator(`span.discount-percentage`);
 
   readonly productName: string = `h3.product-title a`;
+  readonly filteredProductName: string = `.product-title a`;
+  
+  readonly productTitleLink: Locator = this.baseLocator.locator('h3.product-title a');
   readonly productPrice: string = `span.price`;
   readonly quickViewButton: string = `a.quick-view`;
   readonly searchInput: Locator = this.baseLocator.locator(`input[name="s"]`);
@@ -19,4 +22,13 @@ export class HomePageLocators extends BasePageLocators {
   readonly autocompleteItemProduct: Locator = this.baseLocator.locator(`span.product`);
   
   readonly shoppingCart: Locator = this.baseLocator.locator(`#_desktop_cart`);
+
+  readonly allProductsLink: Locator = this.baseLocator.locator('a.all-product-link:has-text("All products")');
+  readonly searchFilters: Locator = this.baseLocator.locator('#search_filters');
+  readonly availabilitySection: Locator = this.baseLocator.locator('section.facet[data-type="availability"]');
+  readonly sizeFilterSection: Locator = this.baseLocator.locator('section.facet[data-type="attribute_group"]', { hasText: 'Size' });
+  readonly productSizeElement: Locator = this.baseLocator.locator('[data-product-size], .product-size, [class*="size"]');
+  
+  readonly colorFilterSection: Locator = this.baseLocator.locator('section.facet[data-type="attribute_group"]', { hasText: "Color" });
+    
 }

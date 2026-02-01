@@ -4,7 +4,6 @@ import { HomePageLocators } from "./HomePageLocators";
 import { ProductPage } from "../ProductPage/ProductPage";
 import { QuickViewModal } from "../QuickViewModal/QuickViewModal";
 import { Modal } from "../Modal/Modal";
-import { TestData } from "../TestData";
 
 export interface Product {
   index: number;
@@ -21,14 +20,22 @@ export class HomePage extends BasePage {
   }
 
   async waitForHomePageElements() {
-    await this.locators.signOutButton.waitFor({ state: "visible", timeout: 10000 });
-    await this.locators.shoppingCart.waitFor({ state: "visible", timeout: 10000 });
-    await this.locators.productItems.first().waitFor({ state: "visible", timeout: 10000 });
+    await this.locators.signOutButton.waitFor({
+      state: "visible",
+      timeout: 10000,
+    });
+    await this.locators.shoppingCart.waitFor({
+      state: "visible",
+      timeout: 10000,
+    });
+    await this.locators.productItems
+      .first()
+      .waitFor({ state: "visible", timeout: 10000 });
   }
 
   async openCart() {
     await this.locators.shoppingCart.click();
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState("networkidle");
   }
 
   async getProductItemsCount() {
@@ -42,13 +49,13 @@ export class HomePage extends BasePage {
 
     for (let i = 0; i < productCount; i++) {
       const product = this.locators.productItems.nth(i);
-      
-      const nameLink = product.locator('h3.product-title a');
-      let name = await nameLink.getAttribute('title');
+
+      const nameLink = product.locator(this.locators.productName);
+      let name = await nameLink.getAttribute("title");
       if (!name) {
         name = await nameLink.textContent();
       }
-      const price = await product.locator('span.price').textContent();
+      const price = await product.locator("span.price").textContent();
 
       products.push({
         index: i,
@@ -62,8 +69,8 @@ export class HomePage extends BasePage {
   async openProductQuickView(index: number): Promise<void> {
     const productItem = this.locators.productItems.nth(index);
     await productItem.hover();
-    
-    const quickViewButton = productItem.locator('a.quick-view');
+
+    const quickViewButton = productItem.locator(this.locators.quickViewButton);
     await quickViewButton.waitFor({ state: "visible", timeout: 5000 });
     await quickViewButton.click();
   }
@@ -77,44 +84,47 @@ export class HomePage extends BasePage {
   async addAllProductsFromFirstPageToCart() {
     const quickViewModal = new QuickViewModal(this.page);
     const modal = new Modal(this.page);
-    
+
     const productCount = await this.getProductItemsCount();
 
     for (let i = 0; i < productCount; i++) {
       const productElement = this.locators.productItems.nth(i);
       await productElement.hover();
-      
-      const quickViewBtn = productElement.locator('a.quick-view');
+
+      // const quickViewBtn = productElement.locator('a.quick-view');
+      const quickViewBtn = productElement.locator(
+        this.locators.quickViewButton,
+      );
       await quickViewBtn.waitFor({ state: "visible", timeout: 5000 });
       await quickViewBtn.click();
-      
+
       await this.page.waitForLoadState("networkidle");
 
       await quickViewModal.clickAddToCart();
       await modal.clickContinueShopping();
-      
+
       await this.page.waitForTimeout(500);
     }
   }
 
- private getProductByName(productName: string) {
-  return this.page
-    .locator('.js-product.product')
-    .filter({ hasText: productName })
-    .first();
-}
+  private getProductByName(productName: string) {
+    return this.page
+      .locator(".js-product.product")
+      .filter({ hasText: productName })
+      .first();
+  }
 
   async addProductToCartByName(productName: string, quantity: number = 1) {
     const quickViewModal = new QuickViewModal(this.page);
     const modal = new Modal(this.page);
-    
+
     const product = this.getProductByName(productName);
     await product.hover();
-    
-    const quickViewBtn = product.locator('a.quick-view');
+
+    const quickViewBtn = product.locator("a.quick-view");
     await quickViewBtn.waitFor({ state: "visible", timeout: 5000 });
     await quickViewBtn.click();
-    
+
     await this.page.waitForLoadState("networkidle");
 
     await quickViewModal.setProductQuantity(quantity);
@@ -129,18 +139,117 @@ export class HomePage extends BasePage {
 
     for (const suggestion of suggestionElements) {
       const suggestionText = await suggestion
-        .locator('span.product')
+        .locator("span.product")
         .textContent();
-      
+
       results.push({
-        text: suggestionText?.trim() || '',
-        matchesSearch: suggestionText?.trim()?.includes(productTitle) || false
+        text: suggestionText?.trim() || "",
+        matchesSearch: suggestionText?.trim()?.includes(productTitle) || false,
       });
     }
 
     return {
-      allMatch: results.every(result => result.matchesSearch),
-      results: results
+      allMatch: results.every((result) => result.matchesSearch),
+      results: results,
     };
+  }
+
+  async navigateToAllProductsPage() {
+    await this.locators.allProductsLink.waitFor({
+      state: "visible",
+      timeout: 10000,
+    });
+    await this.locators.allProductsLink.click();
+    await this.page.waitForLoadState("networkidle");
+  }
+
+  async applySizeFilter(size: string) {
+    await this.locators.searchFilters.waitFor({
+      state: "visible",
+      timeout: 5000,
+    });
+
+    const sizeSection = this.locators.sizeFilterSection;
+    const sizeCheckbox = sizeSection.locator(
+      `input[data-search-url*="Size-${size}"]`,
+    );
+    await sizeCheckbox.waitFor({ state: "visible", timeout: 5000 });
+
+    const initialCount = await this.locators.productItems.count();
+
+    await sizeCheckbox.check();
+
+    await expect
+      .poll(async () => await this.locators.productItems.count(), {
+        message: `Expected product count to change from ${initialCount}`,
+        timeout: 5000,
+      })
+      .not.toBe(initialCount);
+
+    await this.page.waitForLoadState("networkidle");
+  }
+
+   async applyColour(colour: string) {
+    await this.locators.searchFilters.waitFor({
+      state: "visible",
+      timeout: 5000,
+    });
+
+    const colorSection = this.locators.colorFilterSection;
+    const colorCheckbox = colorSection.locator(
+      `input[data-search-url*="Color-${colour}"]`,
+    );
+    await colorCheckbox.waitFor({ state: "visible", timeout: 5000 });
+
+    const initialCount = await this.locators.productItems.count();
+
+    await colorCheckbox.check();
+
+    await expect
+      .poll(async () => await this.locators.productItems.count(), {
+        message: `Expected product count to change from ${initialCount}`,
+        timeout: 5000,
+      })
+      .not.toBe(initialCount);
+
+    await this.page.waitForLoadState("networkidle");
+  }
+
+  async getFilteredProducts() {
+    const productCount = await this.getProductItemsCount();
+    const productNames: string[] = [];
+
+    for (let i = 0; i < productCount; i++) {
+      const productItem = this.locators.productItems.nth(i);
+      const name = await productItem
+        .locator(this.locators.filteredProductName as string)
+        .textContent({ timeout: 1000 })
+        .catch(() => null);
+      if (name) {
+        productNames.push(name.trim());
+      }
+    }
+
+    return productNames;
+  }
+
+  async verifyFilteredProducts(
+    productsWithSize: string[],
+    expectedProductNames: string[],
+    filterDescription: string,
+  ) {
+    for (const productName of productsWithSize) {
+      const isExpectedProduct = expectedProductNames.some(
+        (expectedName) =>
+          productName
+            .toLowerCase()
+            .includes(expectedName.toLowerCase()),
+      );
+
+      await expect(
+        isExpectedProduct,
+        `Product "${productName}" is not in the expected list for ${filterDescription}`,
+      ).toBe(true);
+    }
   }
 }

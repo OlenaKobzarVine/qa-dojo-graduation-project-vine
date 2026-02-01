@@ -1,7 +1,8 @@
 import { test } from '../fixtures/base-fixture';
 import { expect } from '@playwright/test';
+import { TestData } from '../TestData';
 
-test.describe('Login API tests', { tag: ['@API', '@LoginAPI'] }, () => {
+test.describe('Login API tests', { tag: ['@LoginAPI', '@PositiveTests'] }, () => {
   test(
     'API-LO-001: should be able to login with valid credentials',
     {
@@ -9,8 +10,9 @@ test.describe('Login API tests', { tag: ['@API', '@LoginAPI'] }, () => {
     },
     async ({ request }) => {
       let response;
-      const userEmail = process.env.EXISTING_USER_EMAIL!;
-      const userPassword = process.env.DEFAULT_PASSWORD!;
+      const userCredentials = TestData.getUserForLogin();
+      const userEmail = userCredentials.email;
+      const userPassword = userCredentials.password;
 
       await test.step('Send API request to login', async () => {
         response = await request.post(
@@ -43,7 +45,7 @@ test.describe('Login API tests', { tag: ['@API', '@LoginAPI'] }, () => {
   test(
     'API-LO-002: user is not logged in with invalid credentials',
     {
-      tag: '@NegativeTests',
+      tag: ['@LoginAPI', '@NegativeTests']
     },
     async ({ request }) => {
       let response;
