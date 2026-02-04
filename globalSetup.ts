@@ -25,6 +25,7 @@ async function globalSetup(config: FullConfig) {
     password: user.password!,
   });
   await loginPage.clickSignInButton();
+  await page.waitForLoadState('networkidle');
   await homePage.waitForHomePageElements();
 
   await page.waitForTimeout(3000);
