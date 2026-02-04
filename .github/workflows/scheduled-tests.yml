@@ -22,10 +22,21 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
+      - name: Create .env file
+        run: |
+          echo "DEFAULT_PASSWORD=${{ secrets.DEFAULT_PASSWORD }}" >> .env
+          echo "BASE_URL=${{ secrets.BASEURL }}" >> .env
+          echo "BASEURL_API=${{ secrets.BASEURL_API }}" >> .env
+          echo "API_ENDPOINT_LOGIN=${{ secrets.API_ENDPOINT_LOGIN }}" >> .env        
+
       - name: Run Playwright tests
         run: npx playwright test
         env:
           CI: true
+          DEFAULT_PASSWORD: ${{ secrets.DEFAULT_PASSWORD }}
+          BASEURL: ${{ secrets.BASEURL }}
+          BASEURL_API: ${{ secrets.BASEURL_API }}
+          API_ENDPOINT_LOGIN: ${{ secrets.API_ENDPOINT_LOGIN }}
 
       - name: Upload Playwright report
         if: always()

@@ -10,8 +10,8 @@ export class CreateAccountPage extends BasePage {
     this.locators = new CreateAccountPageLocators(page.locator('body'));
   }
   async navigateToCreateAccountPage() {
-    await this.navigateTo('/index.php?controller=registration');
-    await this.locators.createAccountTitle.waitFor({ state: 'visible' });
+    await this.navigateTo('https://teststore.automationtesting.co.uk/index.php?controller=registration');
+    await this.locators.createAccountTitle.waitFor({ state: 'visible', timeout: 30000 });
   }
 
   async fillInputFields(credentials: {
