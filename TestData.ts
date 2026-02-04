@@ -3,7 +3,9 @@ export class TestData {
   static readonly invalidUser = 'invalidUser';
   static readonly userForLogin = 'userForLogin@example.com';
 
-  static readonly password = process.env.DEFAULT_PASSWORD;
+  static get password(): string {
+    return process.env.DEFAULT_PASSWORD || '';
+  }
 
   static readonly firstName = 'TestFirstName';
   static readonly lastName = 'TestLastName';

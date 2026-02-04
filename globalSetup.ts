@@ -2,8 +2,10 @@ import { chromium, expect, request, type FullConfig } from '@playwright/test';
 import { LoginPage } from './pages/LoginPage/LoginPage';
 import { TestData } from './TestData';
 import { HomePage } from './pages/HomePage/HomePage';
+import dotenv from 'dotenv';
 
 async function globalSetup(config: FullConfig) {
+  dotenv.config();
   console.log('---starting global setup---');
 
   const baseURL = process.env.BASEURL || 'https://teststore.automationtesting.co.uk';
