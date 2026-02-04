@@ -5,6 +5,9 @@ on:
     - cron: '0 9 * * *'
   workflow_dispatch:
 
+permissions:
+  checks: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
