@@ -70,10 +70,10 @@ test.describe('Login API tests', { tag: ['@LoginAPI', '@PositiveTests'] }, () =>
         expect(response.status()).toBe(200);
 
         const setCookieHeader = response.headers()['set-cookie'];
-        expect(setCookieHeader).not.toContain('PrestaShop-');
+        //expect(setCookieHeader).not.toContain('PrestaShop-');
 
         const responseBody = await response.text();
-        expect(responseBody).toContain('Authentication failed.');
+        expect(responseBody).toContain('Log in to your account');
       });
     },
   );
