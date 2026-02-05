@@ -32,10 +32,6 @@ test.describe('Login API tests', { tag: ['@LoginAPI', '@PositiveTests'] }, () =>
 
         expect(response.status()).toBe(200);
 
-        // const setCookieHeader = response.headers()['set-cookie'];
-        // expect(setCookieHeader).toBeDefined();
-        // expect(setCookieHeader).toContain('PrestaShop-');
-
         const responseBody = await response.text();
         expect(responseBody).toContain('Sign out');
       });
