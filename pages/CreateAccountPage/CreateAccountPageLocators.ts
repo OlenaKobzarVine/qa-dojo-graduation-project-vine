@@ -3,8 +3,7 @@ import { BasePageLocators } from '../BasePage/BasePageLocators';
 
 export class CreateAccountPageLocators extends BasePageLocators {
   readonly createAccountTitle: Locator = this.baseLocator.locator(
-    `//h1[normalize-space(text())='Create an account']`
-   // `//h1[contains(text(), 'Create an account')]`
+    `//h1[contains(., 'Create an account')]`
   );
 
   readonly agreeTermsCheckbox: Locator = this.baseLocator.locator(

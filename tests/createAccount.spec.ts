@@ -6,6 +6,7 @@ test.describe(
   'create account with required fields',
   { tag: ['@CreateAccountPage', '@PositiveTests'] },
   () => {
+    test.use({ storageState: { cookies: [], origins: [] } });
     test('CA-001 - create account with valid data and accepted terms', async ({
       createAccountPage,
       homePage,
@@ -42,6 +43,7 @@ test.describe(
   'block account creation when terms not accepted',
   { tag: ['@CreateAccountPage', '@NegativeTests'] },
   () => {
+    test.use({ storageState: { cookies: [], origins: [] } });
     test('CA-002 - cannot save without accepting required terms', async ({
       createAccountPage,
     }) => {

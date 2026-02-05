@@ -28,7 +28,7 @@ jobs:
       - name: Create .env file
         run: |
           echo "DEFAULT_PASSWORD=${{ secrets.DEFAULT_PASSWORD }}" >> .env
-          echo "BASE_URL=${{ secrets.BASEURL }}" >> .env
+          echo "BASEURL=${{ secrets.BASEURL }}" >> .env
           echo "BASEURL_API=${{ secrets.BASEURL_API }}" >> .env
           echo "API_ENDPOINT_LOGIN=${{ secrets.API_ENDPOINT_LOGIN }}" >> .env        
       - name: Check secrets are set
@@ -40,15 +40,15 @@ jobs:
             echo "✅ DEFAULT_PASSWORD is set (length: ${#DEFAULT_PASSWORD})"
           fi
           
-          if [ -z "$BASE_URL" ]; then
-            echo "❌ BASE_URL is NOT set"
+          if [ -z "$BASEURL" ]; then
+            echo "❌ BASEURL is NOT set"
             exit 1
           else
-            echo "✅ BASE_URL is set: $BASE_URL"
+            echo "✅ BASEURL is set: $BASEURL"
           fi
         env:
           DEFAULT_PASSWORD: ${{ secrets.DEFAULT_PASSWORD }}
-          BASE_URL: ${{ secrets.BASE_URL }}
+          BASEURL: ${{ secrets.BASEURL }}
           BASEURL_API: ${{ secrets.BASEURL_API }}
           API_ENDPOINT_LOGIN: ${{ secrets.API_ENDPOINT_LOGIN }}
 
