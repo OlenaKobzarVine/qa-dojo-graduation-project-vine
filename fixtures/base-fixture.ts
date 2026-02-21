@@ -114,27 +114,20 @@ async function loginAndGetSession(
     process.env.BASEURL_API + process.env.API_ENDPOINT_LOGIN,
     {
       form: {
-        // Використовуємо form, не data!
+        // form, не data
         email: email,
         password: process.env.DEFAULT_PASSWORD,
         submitLogin: '1',
-        back: 'https://teststore.automationtesting.co.uk/index.php?controller=registration', // URL для редіректу після логіну
+        back: 'https://teststore.automationtesting.co.uk/index.php?controller=registration',
       },
       failOnStatusCode: true,
     },
   );
 
-  // const storageState = await requestContext.storageState();
-  // await appendFile(`storageState/${email}`, storageState);
-
-  // console.log('Login response status:', response.status());
-  // console.log('Login response headers:', response.headers());
-
   const cookies = response.headers()['set-cookie'];
   if (!cookies) {
     throw new Error('No cookies in login response');
   }
-  // console.log('Set-Cookie header:', cookies);
 
   let sessionCookie: string | undefined;
   let cookieName: string;
@@ -144,8 +137,6 @@ async function loginAndGetSession(
     cookieName = fullCookieMatch[1];
     sessionCookie = fullCookieMatch[2];
   }
-
-  // console.log(`Session cookie (${cookieName}):`, sessionCookie);
 
   return sessionCookie;
 }

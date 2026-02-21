@@ -1,6 +1,7 @@
 import { chromium, expect, request, type FullConfig } from '@playwright/test';
 import { LoginPage } from './pages/LoginPage/LoginPage';
-import { TestData } from './TestData';
+//import { TestData } from './TestData';
+import { UsersData } from './UsersData';
 import { HomePage } from './pages/HomePage/HomePage';
 import dotenv from 'dotenv';
 
@@ -17,7 +18,7 @@ async function globalSetup(config: FullConfig) {
   const loginPage = new LoginPage(page);
   const homePage = new HomePage(page);
 
-  const user = TestData.getUserForLogin();
+  const user = UsersData.getUserForLogin();
 
   await loginPage.navigateToSignInPage();
   await loginPage.fillInputFields({
@@ -25,10 +26,8 @@ async function globalSetup(config: FullConfig) {
     password: user.password!,
   });
   await loginPage.clickSignInButton();
-  await page.waitForLoadState('networkidle');
   await homePage.waitForHomePageElements();
 
-  await page.waitForTimeout(3000);
   await page.context().storageState({ path: './storageState.json' });
   console.log('---finishing global setup---');
 

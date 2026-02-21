@@ -1,5 +1,5 @@
 import { Locator } from '@playwright/test';
-import { BasePageLocators } from '../BasePage/BasePageLocators';
+import { BasePageLocators } from '../../pages/BasePage/BasePageLocators';
 
 export class QuickViewModalLocators extends BasePageLocators {
   readonly quickViewModal: Locator = this.baseLocator.locator('.quickview.in .modal-content');

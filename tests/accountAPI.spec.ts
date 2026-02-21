@@ -1,6 +1,6 @@
 import { test } from '../fixtures/base-fixture';
 import { expect } from '@playwright/test';
-import { TestData } from '../TestData';
+import { UsersData } from '../UsersData';
 import { HomePage } from '../pages/HomePage/HomePage';
 
 test.describe(
@@ -11,7 +11,7 @@ test.describe(
       request,
       browser,
     }) => {
-      const user = TestData.getValidUser();
+      const user = UsersData.getValidUser();
       let response;
 
       await test.step('Send API request to create a new user', async () => {

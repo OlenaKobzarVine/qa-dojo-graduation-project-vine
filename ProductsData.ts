@@ -1,18 +1,4 @@
-export class TestData {
-  static readonly validUser = `validUser`;
-  static readonly invalidUser = 'invalidUser';
-  static readonly userForLogin = 'userForLogin@example.com';
-
-
-
-  static readonly firstName = 'TestFirstName';
-  static readonly lastName = 'TestLastName';
-
-  static readonly address1 = 'Test Address 1';
-  static readonly city = 'Test City';
-  static readonly state = 'California';
-  static readonly postcode = '90001';
-  static readonly country = 'United States';
+export class ProductsData {
 
   static readonly products = [
     // Page 1
@@ -144,51 +130,6 @@ export class TestData {
       size: undefined,
     },
   ];
-
-  static getPassword(): string {
-    return process.env.DEFAULT_PASSWORD || '';
-  }
-
-  static getValidUser() {
-    const currentDate = new Date();
-    const timestamp = currentDate.getTime();
-    const validEmail = this.validUser + timestamp + `@example.com`;
-    return {
-      email: validEmail,
-      password: this.getPassword(),
-      firstName: this.firstName,
-      lastName: this.lastName,
-    };
-  }
-
-  static getInvalidUser() {
-    const currentDate = new Date();
-    const timestamp = currentDate.getTime();
-    const invalidUser = this.invalidUser + timestamp + `@example.com`; // To-Do Need to change or delete
-    return {
-      username: this.invalidUser,
-      password: this.getPassword(),
-    };
-  }
-
-  static getUserForLogin() {
-    return {
-      email: this.userForLogin,
-      password: this.getPassword(),
-    };
-  }
-
-  static getDataForCheckout() {
-    return {
-      firstName: this.firstName,
-      lastName: this.lastName,
-      address1: this.address1,
-      city: this.city,
-      state: this.state,
-      postcode: this.postcode,
-      country: this.country,
-    };
-  }
 
   static readonly availableSizes = ['S', 'M', 'L', 'XL'];
   static readonly availableColors = ['Black', 'White'];

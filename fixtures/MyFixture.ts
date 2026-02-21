@@ -3,8 +3,8 @@ import { LoginPage } from '../pages/LoginPage/LoginPage';
 import { CreateAccountPage } from '../pages/CreateAccountPage/CreateAccountPage';
 import { HomePage } from '../pages/HomePage/HomePage';
 import { ProductPage } from '../pages/ProductPage/ProductPage';
-import { Modal } from '../pages/Modal/Modal';
-import { QuickViewModal } from '../pages/QuickViewModal/QuickViewModal';
+import { AddToCartConfirmationModal } from '../modals/Modal/AddToCartConfirmationModal';
+import { QuickViewModal } from '../modals/QuickViewModal/QuickViewModal';
 import { CartPage } from '../pages/CartPage/CartPage';
 import { CheckoutPage } from '../pages/CheckoutPage/CheckoutPage';
 import { OrderConfirmationPage } from '../pages/OrderConfirmationPage/OrderConfirmationPage';
@@ -15,7 +15,7 @@ type MyFixture = {
   createAccountPage: CreateAccountPage;
   homePage: HomePage;
   productPage: ProductPage;
-  modal: Modal;
+  modal: AddToCartConfirmationModal;
   quickViewModal: QuickViewModal;
   cartPage: CartPage;
   checkoutPage: CheckoutPage;
@@ -44,7 +44,7 @@ export const test = base.extend<MyFixture>({
     await use(productPage);
   },
   modal: async ({ page }, use) => {
-    const modal = new Modal(page);
+    const modal = new AddToCartConfirmationModal(page);
     await use(modal);
   },
   quickViewModal: async ({ page }, use) => {

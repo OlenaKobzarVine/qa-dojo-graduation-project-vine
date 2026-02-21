@@ -1,6 +1,7 @@
 import { test } from "../fixtures/MyFixture";
 import { expect } from "@playwright/test";
-import { TestData } from "../TestData";
+import { ProductsData } from '../ProductsData';
+
 test.describe(
   "Checkout Tests",
   { tag: ["@CheckoutPage", "@PositiveTests"], storageState: "./storageState.json" },
@@ -11,7 +12,7 @@ test.describe(
       checkoutPage,
       orderConfirmationPage,
     }) => {
-      const productToTest = TestData.products[0];
+      const productToTest = ProductsData.products[0];
 
       await test.step("Navigate to the home page", async () => {
         await homePage.navigateTo('/');
@@ -35,7 +36,7 @@ test.describe(
       await test.step("Fill in required checkout fields on Addresses section", async () => {
         await cartPage.proceedToCheckout();
         await checkoutPage.fillAddress();
-        await checkoutPage.clickContinueOnAdressSectionButton();
+        await checkoutPage.clickContinueOnAddressSectionButton();
       });
 
       await test.step("Left Shipping Method by default", async () => {
@@ -66,7 +67,7 @@ test.describe(
       cartPage,
       checkoutPage,
     }) => {
-      const productToTest = TestData.products[0];
+      const productToTest = ProductsData.products[0];
 
       await test.step("Navigate to the home page", async () => {
         await homePage.navigateTo('/');
@@ -91,7 +92,7 @@ test.describe(
         await cartPage.proceedToCheckout();
         await checkoutPage.deleteAddress();
 
-        await checkoutPage.clickContinueOnAdressSectionButton();
+        await checkoutPage.clickContinueOnAddressSectionButton();
       });
 
       await test.step("Verify validation errors are displayed", async () => {

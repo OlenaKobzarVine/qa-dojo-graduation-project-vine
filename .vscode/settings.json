@@ -1,0 +1,19 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3308,
+            "driver": "MariaDB",
+            "name": "InfraSOS",
+            "database": "infrasos_testing",
+            "username": "infrasos_user",
+            "password": "xhkYU4W2OQG6lJSX1_XldmPZvgxvEcw5hSlR3QXQ11Ze56Sd8OupRpBfDmffFWpb"
+        }
+    ]
+}

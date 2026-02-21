@@ -3,22 +3,18 @@ import { BasePage } from '../BasePage/BasePage';
 import { CartPageLocators } from './CartPageLocators';
 
 export class CartPage extends BasePage {
-  readonly locators: CartPageLocators;
+  readonly locators = new CartPageLocators(this.page.locator('body'));
 
-  constructor(page: Page) {
-    super(page);
-    this.locators = new CartPageLocators(page.locator('body'));
-  }
+  // constructor(page: Page) {
+  //   super(page);
+  //   this.locators = new CartPageLocators(page.locator('body'));
+  // }
 
   async getCartItemsCount() {
     if (await this.locators.noItemsInCartLabel.isVisible()) return 0;
     await this.locators.cartItems.first().waitFor({ timeout: 10000, state: 'visible' });
     return this.locators.cartItems.count();
   }
-
-  // async getProductInCart(index: number) {
-  //   return this.locators.cartItems.nth(index);
-  // }
 
   async clickProceedToCheckout() {
     await this.locators.proceedToCheckoutButton.click();
@@ -61,7 +57,7 @@ export class CartPage extends BasePage {
   }
 
   private getProductByName(productName: string) {
-    return this.page.locator(`.cart-item:has-text("${productName}")`);
+    return this.page.locator('.cart-item').filter({ hasText: productName });
   }
 
   async removeProduct(name: string) {
@@ -83,7 +79,6 @@ export class CartPage extends BasePage {
     await quantityInput.clear();
     await quantityInput.fill(quantity.toString());
     await quantityInput.press('Enter');
-    await this.page.waitForLoadState('networkidle');
   }
 
   async proceedToCheckout() {

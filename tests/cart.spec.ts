@@ -1,6 +1,6 @@
 import { test } from '../fixtures/MyFixture';
 import { expect } from '@playwright/test';
-import { TestData } from '../TestData';
+import { ProductsData } from '../ProductsData';
 
 test.describe(
   'Shopping Cart Tests',
@@ -10,8 +10,8 @@ test.describe(
   },
   () => {
     test('CART-001 Add multiple products with quantity and Decrease quantity', async ({ homePage, cartPage }) => {
-      const product1 = TestData.products[0]; 
-      const product2 = TestData.products[1]; 
+      const product1 = ProductsData.products[0]; 
+      const product2 = ProductsData.products[1]; 
       const quantity = 3;
 
       await test.step('Navigate to the home page', async () => {
@@ -59,7 +59,7 @@ test.describe(
     });
 
     test('CART-002 Add a negative quantity of products to the cart', async ({ homePage, cartPage }) => {
-      const product1 = TestData.products[0]; 
+      const product1 = ProductsData.products[0]; 
       const quantity = -3;
 
       await test.step('Navigate to the home page', async () => {
@@ -86,6 +86,5 @@ test.describe(
     
     });
   }
-
   
 );

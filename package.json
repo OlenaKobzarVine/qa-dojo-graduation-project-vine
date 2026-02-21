@@ -27,6 +27,7 @@
     "test": "tests"
   },
   "dependencies": {
+    "csv-parse": "^6.1.0",
     "playwright": "^1.57.0",
     "playwright-core": "^1.57.0",
     "undici-types": "^7.16.0"

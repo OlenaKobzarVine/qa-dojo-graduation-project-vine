@@ -1,38 +1,43 @@
 import { Page, expect } from "@playwright/test";
 import { CheckoutPageLocators } from "./CheckoutPageLocators";
 import { BasePage } from "../BasePage/BasePage";
-import { TestData } from "../../TestData";
+//import { TestData } from "../../TestData";
+import { UsersData } from "../../UsersData";
+import { AddressData } from "../../AddressData";
 
 export class CheckoutPage extends BasePage {
-  readonly locators: CheckoutPageLocators;
+  readonly locators = new CheckoutPageLocators(this.page.locator('body'));
 
-  constructor(page: Page) {
-    super(page);
-    this.locators = new CheckoutPageLocators(page.locator('body'));
-  }
+  // constructor(page: Page) {
+  //   super(page);
+  //   this.locators = new CheckoutPageLocators(page.locator('body'));
+  // }
 
-  async fillRequiredAddressFields() {
-    const dataForCheckout = TestData.getDataForCheckout();
+  async fillRequiredAddressFields() {    
+    const userForCheckout = UsersData.getUserForCheckout();
+    const addressData = AddressData.getAddressData();
+    //const dataForCheckout = TestData.getDataForCheckout();
+
     if (!(await this.locators.firstNameInput.inputValue())) {
-      await this.locators.firstNameInput.fill(dataForCheckout.firstName);
+      await this.locators.firstNameInput.fill(userForCheckout.firstName);
     }
     if (!(await this.locators.lastNameInput.inputValue())) {
-      await this.locators.lastNameInput.fill(dataForCheckout.lastName);
+      await this.locators.lastNameInput.fill(userForCheckout.lastName);
     }
-    await this.locators.address1Input.fill(dataForCheckout.address1);
-    await this.locators.cityInput.fill(dataForCheckout.city);
+    await this.locators.address1Input.fill(addressData.address1);
+    await this.locators.cityInput.fill(addressData.city);
     await this.locators.stateSelect.selectOption({
-      label: dataForCheckout.state,
+      label: addressData.state,
     });
-    await this.locators.postcodeInput.fill(dataForCheckout.postcode);
+    await this.locators.postcodeInput.fill(addressData.postcode);
     await this.locators.countrySelect.selectOption({
-      label: dataForCheckout.country,
+      label: addressData.country,
     });
   }
 
-  async clickContinueOnAdressSectionButton() {
-    await this.locators.clickContinueOnAdressSectionButton.waitFor();
-    await this.locators.clickContinueOnAdressSectionButton.click();
+  async clickContinueOnAddressSectionButton() {
+    await this.locators.clickContinueOnAddressSectionButton.waitFor();
+    await this.locators.clickContinueOnAddressSectionButton.click();
   }
 
   async clickContinueOnDeliverySectionButton() {
@@ -55,12 +60,10 @@ export class CheckoutPage extends BasePage {
     const deleteButton = this.locators.deleteAddressButton;
     if ((await deleteButton.count()) > 0) {
       await deleteButton.first().click();
-      await this.page.waitForLoadState('networkidle');
     }
   }
 
   async selectPaymentMethodAndAgreeToTerms(){
-    await this.page.waitForLoadState('networkidle');
 
     await this.locators.bankWireRadio.waitFor({ state: 'visible', timeout: 10000 });
     await this.locators.bankWireRadio.check();

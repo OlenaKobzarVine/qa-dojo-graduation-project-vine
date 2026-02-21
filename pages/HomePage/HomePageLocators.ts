@@ -20,7 +20,7 @@ export class HomePageLocators extends BasePageLocators {
   
   readonly shoppingCart: Locator = this.baseLocator.locator(`#_desktop_cart`);
 
-  readonly allProductsLink: Locator = this.baseLocator.locator('a.all-product-link:has-text("All products")');
+  readonly allProductsLink: Locator = this.baseLocator.getByRole('link', { name: 'All products' });
   readonly searchFilters: Locator = this.baseLocator.locator('#search_filters');
   readonly sizeFilterSection: Locator = this.baseLocator.locator('section.facet[data-type="attribute_group"]', { hasText: 'Size' });
   

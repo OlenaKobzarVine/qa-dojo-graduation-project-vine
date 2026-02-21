@@ -1,5 +1,5 @@
 import { Page, expect } from '@playwright/test';
-import { BasePage } from '../BasePage/BasePage';
+import { BasePage } from '../../pages/BasePage/BasePage';
 import { QuickViewModalLocators } from './QuickViewModalLocators'; 
 
 export class QuickViewModal extends BasePage {

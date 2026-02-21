@@ -10,15 +10,16 @@ export class CheckoutPageLocators extends BasePageLocators {
 	readonly postcodeInput: Locator = this.baseLocator.locator('#field-postcode');
 	readonly countrySelect: Locator = this.baseLocator.locator('#field-id_country');
 
-	readonly clickContinueOnAdressSectionButton: Locator = this.baseLocator.locator('button[name="confirm-addresses"]');
-	readonly savedAddressRadio: Locator = this.baseLocator.locator('#delivery-addresses input[type="radio"][name="id_address_delivery"]');
-	readonly deleteAddressButton: Locator = this.baseLocator.locator('a[data-link-action="delete-address"]');
+	readonly clickContinueOnAddressSectionButton: Locator = this.baseLocator.getByRole('button', { name: /continue/i }).first();
+	readonly savedAddressRadio: Locator = this.baseLocator.locator('#delivery-addresses').getByRole('radio');
+	readonly deleteAddressButton: Locator = this.baseLocator.getByRole('link', { name: /delete/i });
 
+	// readonly clickContinueOnDeliverySectionButton: Locator = this.baseLocator.getByRole('button', { name: /continue/i }).last();
 	readonly clickContinueOnDeliverySectionButton: Locator = this.baseLocator.locator('button[name="confirmDeliveryOption"]');
 
-    readonly bankWireRadio: Locator = this.baseLocator.page().locator('input[type="radio"][name="payment-option"][data-module-name="ps_wirepayment"]');
-	readonly termsCheckbox: Locator = this.baseLocator.page().locator('input[type="checkbox"][name="conditions_to_approve[terms-and-conditions]"]');
+    readonly bankWireRadio: Locator = this.baseLocator.page().getByRole('radio', { name: /wire/i });
+	readonly termsCheckbox: Locator = this.baseLocator.page().getByRole('checkbox', { name: /terms/i });
 
-    readonly placeOrderButton: Locator = this.baseLocator.page().locator('button.btn.btn-primary.center-block:not([disabled])');
+    readonly placeOrderButton: Locator = this.baseLocator.page().getByRole('button', { name: /place order/i });
 
 }

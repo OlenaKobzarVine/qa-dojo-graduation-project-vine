@@ -1,8 +1,8 @@
 import { test } from "../fixtures/MyFixture";
 import { expect } from "@playwright/test";
-import { TestData } from "../TestData";
+import { ProductsData } from "../ProductsData";
 
-test.describe.skip(
+test.describe(
   "Product Interaction Tests",
   {
     tag: ["@Products", "@PositiveTests"],
@@ -36,7 +36,7 @@ test.describe.skip(
       homePage,
       cartPage,
     }) => {
-      const productToTest = TestData.products[0];
+      const productToTest = ProductsData.products[0];
 
       await test.step("Navigate to the home page", async () => {
         await homePage.navigateTo("/");
@@ -71,11 +71,11 @@ test.describe.skip(
   },
 );
 
-test.describe.skip(
+test.describe(
   "Search tests by product title",
   { tag: ["@Search", "@PositiveTests"] },
   () => {
-    for (const product of TestData.products) {
+    for (const product of ProductsData.products) {
       test(`SA-001 Search by "${product.title}" returns correct results`, async ({
         homePage,
       }) => {
@@ -115,7 +115,7 @@ test.describe.skip(
   },
 );
 
-test.describe.skip(
+test.describe(
   "Search tests with invalid value",
   { tag: ["@Search", "@NegativeTests"] },
   () => {
@@ -155,20 +155,19 @@ test.describe(
 
       await homePage.navigateToAllProductsPage();
 
-      await page.waitForLoadState("networkidle");
       await homePage.locators.productItems
         .first()
         .waitFor({ state: "visible", timeout: 10000 });
     });
 
     test.describe("Size Filter Parameterized Tests", () => {
-      const uniqueSizes = TestData.availableSizes;
+      const uniqueSizes = ProductsData.availableSizes;
 
       uniqueSizes.forEach((size) => {
         test(`FIL-001 Filter products by size ${size}`, async ({
           homePage,
         }) => {
-          const expectedProducts = TestData.products.filter((product) =>
+          const expectedProducts = ProductsData.products.filter((product) =>
             product.size?.includes(size),
           );
 
@@ -195,18 +194,16 @@ test.describe(
       });
     });
 
-   
-
     test.describe("Size and Colour Filter Parameterized Tests", () => {
-      const uniqueSizes = TestData.availableSizes;
-      const uniqueColours = TestData.availablecolors;
+      const uniqueSizes = ProductsData.availableSizes;
+      const uniqueColours = ProductsData.availableColors;
 
       uniqueSizes.forEach((size) => {
         uniqueColours.forEach((colour) => {
           test(`FIL-002 Filter products by size ${size} and colour ${colour}`, async ({
             homePage,
           }) => {
-            const expectedProducts = TestData.products.filter((product) =>
+            const expectedProducts = ProductsData.products.filter((product) =>
               product.size?.includes(size) && product.color?.includes(colour),
             );
 

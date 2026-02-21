@@ -1,6 +1,6 @@
 import { test } from '../fixtures/base-fixture';
 import { expect } from '@playwright/test';
-import { TestData } from '../TestData';
+import { UsersData } from '../UsersData';
 
 test.describe('Login API tests', { tag: ['@LoginAPI', '@PositiveTests'] }, () => {
   test(
@@ -10,7 +10,7 @@ test.describe('Login API tests', { tag: ['@LoginAPI', '@PositiveTests'] }, () =>
     },
     async ({ request }) => {
       let response;
-      const userCredentials = TestData.getUserForLogin();
+      const userCredentials = UsersData.getUserForLogin();
       const userEmail = userCredentials.email;
       const userPassword = userCredentials.password;
 

@@ -1,9 +1,8 @@
 import { Page, expect } from "@playwright/test";
 import { BasePage } from "../BasePage/BasePage";
 import { HomePageLocators } from "./HomePageLocators";
-import { ProductPage } from "../ProductPage/ProductPage";
-import { QuickViewModal } from "../QuickViewModal/QuickViewModal";
-import { Modal } from "../Modal/Modal";
+import { QuickViewModal } from "../../modals/QuickViewModal/QuickViewModal";
+import { AddToCartConfirmationModal } from "../../modals/Modal/AddToCartConfirmationModal";
 
 export interface Product {
   index: number;
@@ -12,12 +11,12 @@ export interface Product {
 }
 
 export class HomePage extends BasePage {
-  readonly locators: HomePageLocators;
+  readonly locators= new HomePageLocators(this.page.locator('body'));
 
-  constructor(page: Page) {
-    super(page);
-    this.locators = new HomePageLocators(page.locator("body"));
-  }
+  // constructor(page: Page) {
+  //   super(page);
+  //   this.locators = new HomePageLocators(page.locator("body"));
+  // }
 
   async waitForHomePageElements() {
     await this.locators.signOutButton.waitFor({
@@ -35,7 +34,6 @@ export class HomePage extends BasePage {
 
   async openCart() {
     await this.locators.shoppingCart.click();
-    await this.page.waitForLoadState("networkidle");
   }
 
   async getProductItemsCount() {
@@ -83,7 +81,7 @@ export class HomePage extends BasePage {
 
   async addAllProductsFromFirstPageToCart() {
     const quickViewModal = new QuickViewModal(this.page);
-    const modal = new Modal(this.page);
+    const modal = new AddToCartConfirmationModal(this.page);
 
     const productCount = await this.getProductItemsCount();
 
@@ -91,19 +89,15 @@ export class HomePage extends BasePage {
       const productElement = this.locators.productItems.nth(i);
       await productElement.hover();
 
-      // const quickViewBtn = productElement.locator('a.quick-view');
       const quickViewBtn = productElement.locator(
         this.locators.quickViewButton,
       );
       await quickViewBtn.waitFor({ state: "visible", timeout: 5000 });
       await quickViewBtn.click();
 
-      await this.page.waitForLoadState("networkidle");
-
+      await quickViewModal.locators.quickViewModal.waitFor({ state: "visible", timeout: 5000 });
       await quickViewModal.clickAddToCart();
       await modal.clickContinueShopping();
-
-      await this.page.waitForTimeout(500);
     }
   }
 
@@ -116,7 +110,7 @@ export class HomePage extends BasePage {
 
   async addProductToCartByName(productName: string, quantity: number = 1) {
     const quickViewModal = new QuickViewModal(this.page);
-    const modal = new Modal(this.page);
+    const modal = new AddToCartConfirmationModal(this.page);
 
     const product = this.getProductByName(productName);
     await product.hover();
@@ -125,8 +119,7 @@ export class HomePage extends BasePage {
     await quickViewBtn.waitFor({ state: "visible", timeout: 5000 });
     await quickViewBtn.click();
 
-    await this.page.waitForLoadState("networkidle");
-
+    await quickViewModal.locators.quickViewModal.waitFor({ state: "visible", timeout: 5000 });
     await quickViewModal.setProductQuantity(quantity);
     await quickViewModal.clickAddToCart();
     await modal.clickContinueShopping();
@@ -160,7 +153,6 @@ export class HomePage extends BasePage {
       timeout: 10000,
     });
     await this.locators.allProductsLink.click();
-    await this.page.waitForLoadState("networkidle");
   }
 
   async applySizeFilter(size: string) {
@@ -185,8 +177,6 @@ export class HomePage extends BasePage {
         timeout: 5000,
       })
       .not.toBe(initialCount);
-
-    await this.page.waitForLoadState("networkidle");
   }
 
    async applyColour(colour: string) {
@@ -211,8 +201,6 @@ export class HomePage extends BasePage {
         timeout: 5000,
       })
       .not.toBe(initialCount);
-
-    await this.page.waitForLoadState("networkidle");
   }
 
   async getFilteredProducts() {

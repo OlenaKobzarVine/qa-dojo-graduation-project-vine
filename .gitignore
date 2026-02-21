@@ -6,5 +6,5 @@ node_modules/
 /playwright/.cache/
 /playwright/.auth/
 .env
-TestData.ts
 storageState.json
+index.js

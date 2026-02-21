@@ -3,12 +3,12 @@ import { BasePage } from '../BasePage/BasePage';
 import { LoginPageLocators } from './LoginPageLocators';
 
 export class LoginPage extends BasePage {
-  readonly locators: LoginPageLocators;
+  readonly locators = new LoginPageLocators(this.page.locator('body'));
 
-  constructor(page: Page) {
-    super(page);
-    this.locators = new LoginPageLocators(page.locator('body'));
-  }
+  // constructor(page: Page) {
+  //   super(page);
+  //   this.locators = new LoginPageLocators(page.locator('body'));
+  // }
 
   async navigateToSignInPage() {
     await this.navigateTo(

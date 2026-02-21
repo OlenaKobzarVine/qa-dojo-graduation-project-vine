@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures/MyFixture';
-import { TestData } from '../TestData';
+import { UsersData } from '../UsersData';
 
 test.describe(
   'create account with required fields',
@@ -16,7 +16,7 @@ test.describe(
       });
 
       await test.step('Fill required fields and accept terms', async () => {
-        const user = TestData.getValidUser();
+        const user = UsersData.getValidUser();
 
         await createAccountPage.fillInputFields({
           firstName: user.firstName,
@@ -52,7 +52,7 @@ test.describe(
       });
 
       await test.step('Fill required fields but do not accept terms', async () => {
-        const user = TestData.getValidUser();
+        const user = UsersData.getValidUser();
         await createAccountPage.fillInputFields({
           firstName: user.firstName,
           lastName: user.lastName,
