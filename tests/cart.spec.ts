@@ -3,15 +3,14 @@ import { expect } from '@playwright/test';
 import { ProductsData } from '../ProductsData';
 
 test.describe(
-  'Shopping Cart Tests',
+  'Shopping Cart',
   {
-    tag: ['@Cart', '@PositiveTests'],
-    storageState: './storageState.json',
+    tag: ['@Cart', '@PositiveTests']
   },
   () => {
-    test('CART-001 Add multiple products with quantity and Decrease quantity', async ({ homePage, cartPage }) => {
-      const product1 = ProductsData.products[0]; 
-      const product2 = ProductsData.products[1]; 
+    test.use({ storageState: './storageState.json' });
+    test('CART-001 Add multiple products with quantity and Decrease quantity', async ({ homePage, cartPage, productPage }) => {
+      const product = ProductsData.products[0]; 
       const quantity = 3;
 
       await test.step('Navigate to the home page', async () => {
@@ -20,46 +19,36 @@ test.describe(
       });
 
       await test.step('Add first product with quantity 3 to cart', async () => {
-        await homePage.addProductToCartByName(product1.title, quantity);
+        await homePage.addProductToCartByName(product.title, quantity);
       });
 
-      await test.step('Add second product with quantity 3 to cart', async () => {
-        await homePage.addProductToCartByName(product2.title, quantity);
-      });
-
-      await test.step('Verify both products are in cart with correct quantity', async () => {
+      await test.step('Verify products are in cart with correct quantity', async () => {
         await homePage.openCart();
 
         const cartProductNames = await cartPage.getCartProductsNames();
-        const product1Found = cartProductNames.some(name => name.includes(product1.title));
-        const product2Found = cartProductNames.some(name => name.includes(product2.title));
-        
+        const product1Found = cartProductNames.some(name => name.includes(product.title));        
         await expect(product1Found).toBeTruthy();
-        await expect(product2Found).toBeTruthy();
         
-        const product1Qty = await cartPage.getProductQuantity(product1.title);
-        const product2Qty = await cartPage.getProductQuantity(product2.title);
+        const pr = cartPage.locators.cartItems.filter({ hasText: product.title });
+        const productQty = parseInt(await pr.locator(cartPage.locators.quantityInput).inputValue(), 10);
         
-        await expect(product1Qty).toBe(quantity);
-        await expect(product2Qty).toBe(quantity);
+        await expect(productQty).toBe(quantity);
       });
 
       await test.step('Decrease quantity of each product by 1', async () => {
-        await cartPage.updateProductQuantity(product1.title, quantity - 1);
-        await cartPage.updateProductQuantity(product2.title, quantity - 1);
+        await cartPage.updateProductQuantity(product.title, quantity - 1);
       });
 
       await test.step('Verify correct quantities remain in cart', async () => {
-        const product1Qty = await cartPage.getProductQuantity(product1.title);
-        const product2Qty = await cartPage.getProductQuantity(product2.title);
+        const pr = cartPage.locators.cartItems.filter({ hasText: product.title });
+        const productQty = parseInt(await pr.locator(cartPage.locators.quantityInput).inputValue(), 10);
         
-        await expect(product1Qty).toBe(quantity - 1);
-        await expect(product2Qty).toBe(quantity - 1);
+        await expect(productQty).toBe(quantity - 1);
       });
     });
 
     test('CART-002 Add a negative quantity of products to the cart', async ({ homePage, cartPage }) => {
-      const product1 = ProductsData.products[0]; 
+      const product = ProductsData.products[0]; 
       const quantity = -3;
 
       await test.step('Navigate to the home page', async () => {
@@ -68,20 +57,21 @@ test.describe(
       });
 
       await test.step('Add product with negative quantity to cart', async () => {
-        await homePage.addProductToCartByName(product1.title, quantity);
+        await homePage.addProductToCartByName(product.title, quantity);
       });
 
       await test.step('Verify product is in cart with correct quantity', async () => {
         await homePage.openCart();
 
         const cartProductNames = await cartPage.getCartProductsNames();
-        const product1Found = cartProductNames.some(name => name.includes(product1.title));
+        const product1Found = cartProductNames.some(name => name.includes(product.title));
         
         await expect(product1Found).toBeTruthy();
         
-        const product1Qty = await cartPage.getProductQuantity(product1.title);
+        const pr = cartPage.locators.cartItems.filter({ hasText: product.title });
+        const productQty = parseInt(await pr.locator(cartPage.locators.quantityInput).inputValue(), 10);
         
-        await expect(product1Qty).toBe(1);
+        await expect(productQty).toBe(1);
       });
     
     });

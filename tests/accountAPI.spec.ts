@@ -4,10 +4,10 @@ import { UsersData } from '../UsersData';
 import { HomePage } from '../pages/HomePage/HomePage';
 
 test.describe(
-  'Account API tests',
+  'Account API',
   { tag: ['@API', '@AccountAPI', '@PositiveTests'] },
   () => {
-    test('API-001: Register a new user via API', async ({
+    test('API-001: Register a new user', async ({
       request,
       browser,
     }) => {

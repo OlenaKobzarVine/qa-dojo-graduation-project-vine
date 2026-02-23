@@ -3,11 +3,11 @@ import { test } from '../fixtures/MyFixture';
 import { UsersData } from '../UsersData';
 
 test.describe(
-  'create account with required fields',
+  'Create account with required fields',
   { tag: ['@CreateAccountPage', '@PositiveTests'] },
   () => {
     test.use({ storageState: { cookies: [], origins: [] } });
-    test('CA-001 - create account with valid data and accepted terms', async ({
+    test('CA-001 Create account with valid data and accepted terms', async ({
       createAccountPage,
       homePage,
     }) => {
@@ -40,11 +40,11 @@ test.describe(
 );
 
 test.describe(
-  'block account creation when terms not accepted',
+  'Block account creation when terms not accepted',
   { tag: ['@CreateAccountPage', '@NegativeTests'] },
   () => {
     test.use({ storageState: { cookies: [], origins: [] } });
-    test('CA-002 - cannot save without accepting required terms', async ({
+    test('CA-002 Cannot save without accepting required terms', async ({
       createAccountPage,
     }) => {
       await test.step('Open sign up page', async () => {

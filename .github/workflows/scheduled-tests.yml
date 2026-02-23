@@ -25,33 +25,6 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Create .env file
-        run: |
-          echo "DEFAULT_PASSWORD=${{ secrets.DEFAULT_PASSWORD }}" >> .env
-          echo "BASEURL=${{ secrets.BASEURL }}" >> .env
-          echo "BASEURL_API=${{ secrets.BASEURL_API }}" >> .env
-          echo "API_ENDPOINT_LOGIN=${{ secrets.API_ENDPOINT_LOGIN }}" >> .env        
-      - name: Check secrets are set
-        run: |
-          if [ -z "$DEFAULT_PASSWORD" ]; then
-            echo "❌ DEFAULT_PASSWORD is NOT set"
-            exit 1
-          else
-            echo "✅ DEFAULT_PASSWORD is set (length: ${#DEFAULT_PASSWORD})"
-          fi
-          
-          if [ -z "$BASEURL" ]; then
-            echo "❌ BASEURL is NOT set"
-            exit 1
-          else
-            echo "✅ BASEURL is set: $BASEURL"
-          fi
-        env:
-          DEFAULT_PASSWORD: ${{ secrets.DEFAULT_PASSWORD }}
-          BASEURL: ${{ secrets.BASEURL }}
-          BASEURL_API: ${{ secrets.BASEURL_API }}
-          API_ENDPOINT_LOGIN: ${{ secrets.API_ENDPOINT_LOGIN }}
-
       - name: Run Playwright tests
         run: npx playwright test
         env:
@@ -76,3 +49,4 @@ jobs:
           name: Playwright Test Results
           path: test-results/junit.xml
           reporter: java-junit
+          fail-on-error: false

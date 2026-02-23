@@ -2,9 +2,9 @@ import { test } from '../fixtures/base-fixture';
 import { expect } from '@playwright/test';
 import { UsersData } from '../UsersData';
 
-test.describe('Login API tests', { tag: ['@LoginAPI', '@PositiveTests'] }, () => {
+test.describe('Login API', { tag: ['@LoginAPI', '@PositiveTests'] }, () => {
   test(
-    'API-LO-001: should be able to login with valid credentials',
+    'API-LO-001 User is able to login with valid credentials',
     {
       tag: '@PositiveTests',
     },
@@ -39,7 +39,7 @@ test.describe('Login API tests', { tag: ['@LoginAPI', '@PositiveTests'] }, () =>
   );
 
   test(
-    'API-LO-002: user is not logged in with invalid credentials',
+    'API-LO-002 User is not logged in with invalid credentials',
     {
       tag: ['@LoginAPI', '@NegativeTests']
     },

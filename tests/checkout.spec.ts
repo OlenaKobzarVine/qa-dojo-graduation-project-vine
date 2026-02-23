@@ -3,9 +3,10 @@ import { expect } from "@playwright/test";
 import { ProductsData } from '../ProductsData';
 
 test.describe(
-  "Checkout Tests",
-  { tag: ["@CheckoutPage", "@PositiveTests"], storageState: "./storageState.json" },
+  "Checkout - Success Flow",
+  { tag: ["@CheckoutPage", "@PositiveTests"] },
   () => {
+    test.use({ storageState: './storageState.json' });
     test("CO-001 Checkout with valid data", async ({
       homePage,
       cartPage,
@@ -48,9 +49,8 @@ test.describe(
       });
 
       await test.step("Verify order confirmation", async () => {
-        const { title, text } = orderConfirmationPage.getConfirmationElements();
-        await expect(title).toContainText("Your order is confirmed");
-        await expect(text).toContainText(
+        await expect(orderConfirmationPage.locators.confirmationTitle).toContainText("Your order is confirmed");
+        await expect(orderConfirmationPage.locators.confirmationText).toContainText(
           "An email has been sent to the",
         );
       });
@@ -59,8 +59,8 @@ test.describe(
 );
 
 test.describe(
-  "Checkout tests with empty address fields",
-  { tag: ["@CheckoutPage", "@NegativeTests"], storageState: "./storageState.json" },
+  "Checkout - With Empty Address",
+  { tag: ["@CheckoutPage", "@NegativeTests"] },
   () => {
     test("CO-002 Checkout without filling address fields", async ({
       homePage,

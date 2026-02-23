@@ -3,12 +3,13 @@ import { expect } from "@playwright/test";
 import { ProductsData } from "../ProductsData";
 
 test.describe(
-  "Product Interaction Tests",
+  "Product Interaction",
   {
     tag: ["@Products", "@PositiveTests"],
-    storageState: "./storageState.json",
+    // storageState: "./storageState.json",
   },
   () => {
+    test.use({ storageState: './storageState.json' });
     test("PR-001 Add all products to cart", async ({ homePage, cartPage }) => {
       await test.step("Navigate to the home page", async () => {
         await homePage.navigateTo("/");
@@ -72,7 +73,7 @@ test.describe(
 );
 
 test.describe(
-  "Search tests by product title",
+  "Search by product title",
   { tag: ["@Search", "@PositiveTests"] },
   () => {
     for (const product of ProductsData.products) {
@@ -116,7 +117,7 @@ test.describe(
 );
 
 test.describe(
-  "Search tests with invalid value",
+  "Search with invalid value",
   { tag: ["@Search", "@NegativeTests"] },
   () => {
     test("SA-002 Invalid search value returns no results", async ({
@@ -143,10 +144,9 @@ test.describe(
 );
 
 test.describe(
-  "Product Filter Tests",
+  "Product Filter",
   {
     tag: ["@Products", "@Filter", "@PositiveTests"],
-    //storageState: './storageState.json',
   },
   () => {
     test.beforeEach(async ({ homePage, page }) => {
