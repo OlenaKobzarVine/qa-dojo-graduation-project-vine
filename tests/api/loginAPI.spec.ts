@@ -1,6 +1,6 @@
-import { test } from '../fixtures/base-fixture';
+import { test } from '../../fixtures/base-fixture';
 import { expect } from '@playwright/test';
-import { UsersData } from '../UsersData';
+import { UsersData } from '../../UsersData';
 
 test.describe('Login API', { tag: ['@LoginAPI', '@PositiveTests'] }, () => {
   test(

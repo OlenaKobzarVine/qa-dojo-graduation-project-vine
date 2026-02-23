@@ -27,7 +27,7 @@ export class UsersData {
     const timestamp = currentDate.getTime();
     const invalidUser = this.invalidUser + timestamp + `@example.com`; // To-Do Need to change or delete
     return {
-      username: this.invalidUser,
+      email: invalidUser,
       password: this.getPassword(),
     };
   }

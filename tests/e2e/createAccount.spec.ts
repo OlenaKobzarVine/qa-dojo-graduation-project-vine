@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test';
-import { test } from '../fixtures/MyFixture';
-import { UsersData } from '../UsersData';
+import { test } from '../../fixtures/MyFixture';
+import { UsersData } from '../../UsersData';
 
 test.describe(
   'Create account with required fields',

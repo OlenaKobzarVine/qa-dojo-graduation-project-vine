@@ -1,7 +1,7 @@
-import { test } from '../fixtures/base-fixture';
+import { test } from '../../fixtures/base-fixture';
 import { expect } from '@playwright/test';
-import { UsersData } from '../UsersData';
-import { HomePage } from '../pages/HomePage/HomePage';
+import { UsersData } from '../../UsersData';
+import { HomePage } from '../../pages/HomePage/HomePage';
 
 test.describe(
   'Account API',

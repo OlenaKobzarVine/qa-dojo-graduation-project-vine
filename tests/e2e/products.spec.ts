@@ -1,6 +1,6 @@
-import { test } from "../fixtures/MyFixture";
+import { test } from "../../fixtures/MyFixture";
 import { expect } from "@playwright/test";
-import { ProductsData } from "../ProductsData";
+import { ProductsData } from "../../ProductsData";
 
 test.describe(
   "Product Interaction",
