@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test';
-import { test } from '../../fixtures/MyFixture';
+import { test } from '../../fixtures/E2EFixture';
 import { UsersData } from '../../UsersData';
 
 test.describe(

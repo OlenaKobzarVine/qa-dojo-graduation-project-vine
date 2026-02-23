@@ -1,4 +1,4 @@
-import { test } from '../../fixtures/base-fixture';
+import { test } from '../../fixtures/APIFixture';
 import { expect } from '@playwright/test';
 import { UsersData } from '../../UsersData';
 import { HomePage } from '../../pages/HomePage/HomePage';

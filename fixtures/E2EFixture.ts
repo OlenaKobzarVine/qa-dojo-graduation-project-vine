@@ -9,7 +9,7 @@ import { CartPage } from '../pages/CartPage/CartPage';
 import { CheckoutPage } from '../pages/CheckoutPage/CheckoutPage';
 import { OrderConfirmationPage } from '../pages/OrderConfirmationPage/OrderConfirmationPage';
 
-type MyFixture = {
+type E2EFixture = {
   userEmail: string;
   loginPage: LoginPage;
   createAccountPage: CreateAccountPage;
