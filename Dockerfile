@@ -1,16 +1,27 @@
-FROM node:18-bookworm-slim
+name: Playwright Tests
 
-WORKDIR /app
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libnss3 libnspr4 libdbus-1-3 libatk1.0-0 libatk-bridge2.0-0 \
-    libcups2 libdrm2 libxkbcommon0 libpango-1.0-0 libpangocairo-1.0-0 \
-    libgbm1 libasound2 \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY package.json package-lock.json ./
-RUN npm ci && npx playwright install --with-deps chromium
-
-COPY . .
-
-CMD ["npx", "playwright", "test", "--reporter=list"]
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    - run: npm ci
+    - run: npx playwright install --with-deps
+    - run: npm test
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30
